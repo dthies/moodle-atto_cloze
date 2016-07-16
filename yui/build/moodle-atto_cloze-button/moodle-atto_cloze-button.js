@@ -93,7 +93,6 @@ var TEMPLATE = {
         +    '{{/types}}'
         + '</div>'
     };
-            
 
 Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
     /**
@@ -180,6 +179,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             bodyContent: '<div style="height:500px"></div>',
             width: 500
         }, true);
+
+        // Resolve whether cursor is in a subquestion.
+        this._resolveSubquestion();
         dialogue.show();
 
         dialogue.set('bodyContent', this._getDialogueContent());
@@ -313,6 +315,105 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             this._marks = this._form.one('.' + CSS.MARKS).getDOMNode().value;
         }
         return this;
+   },
+
+    /**
+     * Locate a node and offset to be used as a end of a range representing an
+     * offset in the text value of a node.
+     * true.
+     *
+     * @method _getAnchor
+     * @param {DOMNode} Parent node with text value
+     * @param {Integer} Position of character with in text of parent node
+     * @return {Object} An object with anchor and offset for the character
+     * with offset in string.
+     * @private
+     */
+    _getAnchor: function(node, offset) {
+      if (!node.hasChildNodes()) {
+          return {anchor: node, offset: offset};
+      }
+      var child = node.firstChild;
+      while (offset > child.textContent.length) {
+          offset -= child.textContent.length;
+          child = child.nextSibling;
+      }
+      return this._getAnchor(child, offset);
+    },
+
+    /**
+     * Find the offset for the text of a child with within the text of parent
+     *
+     * @method _getOffset
+     * @param {DOMNode} Parent node with text value
+     * @param {DOMNode} Parent node with text value
+     * @return {Integer} The offset of the child's text
+     * @private
+     */
+    _getOffset: function(container, node) {
+        if (!container.contains(node)) {
+            return O;
+        }
+        if (container === node) {
+            return 0;
+        }
+        var offset = 0,
+            child = container.firstChild;
+        while (!child.contains(node)) {
+            offset += child.textContent.length;
+            child = child.nextSibling;
+        }
+        return offset + this._getOffset(node, child);
+    },
+
+    /**
+     * Check whether cursor is in a subquestion and return subquestion text if
+     * true.
+     *
+     * @method _resolveSubquestion
+     * @return {String} The substring describing subquestion
+     * @private
+     */
+    _resolveSubquestion: function() {
+        var host = this.get('host'),
+            selectedNode =  host.getSelectionParentNode(),
+            re = /\{[^]*?\}/g;
+
+        if (!selectedNode) {
+            return;
+        }
+        var subquestions = selectedNode.textContent.match(re);
+        if (!subquestions) {
+            return;
+        }
+
+        var index,
+            selection = this.get('host').getSelection(),
+            result = '',
+            questionEnd = 0;
+
+        if (!selection || selection.length === 0) {
+            return false;
+        }
+
+        var startIndex = this._getOffset(selectedNode, selection[0].startContainer) + selection[0].startOffset,
+            endIndex = this._getOffset(selectedNode, selection[0].endContainer) + selection[0].endOffset;
+
+        subquestions.forEach(function(subquestion) {
+            index = selectedNode.textContent.indexOf(subquestion, questionEnd);
+            questionEnd = index + subquestion.length;
+            if (index < startIndex && endIndex < questionEnd) {
+               result = subquestion;
+               var startRange = this._getAnchor(selectedNode, index);
+               var endRange = this._getAnchor(selectedNode, questionEnd);
+               selection[0].setStart(startRange.anchor, startRange.offset);
+               selection[0].setEnd(endRange.anchor, endRange.offset);
+               this.get('host').setSelection(selection);
+               this._currentSelection = host.getSelection();
+            }
+        }, this);
+
+        return result;
     }
 });
 

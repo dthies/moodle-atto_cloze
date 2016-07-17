@@ -253,7 +253,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
         answers.forEach(function(answer) {
-            var options = /%([0-9]+)%([^#])#*(.*)/.exec(answer);
+            var options = /%(-?[\.0-9]+)%([^#])#*(.*)/.exec(answer);
             if (options && options.length > 2) {
                 this._answerdata.push({answer: options[2], feedback: options[3], fraction: options[1]});
             }

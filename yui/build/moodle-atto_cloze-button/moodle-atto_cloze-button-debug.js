@@ -38,6 +38,7 @@ var COMPONENTNAME = 'atto_cloze';
 var CSS = {
         ANSWER: 'cloze_answer',
         ADD: 'cloze_add',
+        CANCEL: 'cloze_cancel',
         DELETE: 'cloze_delete',
         FEEDBACK: 'cloze_feedback',
         FRACTION: 'cloze_fraction',
@@ -83,7 +84,7 @@ var TEMPLATE = {
         +    '{{/answerdata}}'
         +    '    <p><button class="' + CSS.ADD + '" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></p>'
         +    '    <p><button type="submit" class="' + CSS.SUBMIT + '">{{get_string "common:insert" "editor_tinymce"}}</button>'
-        +    '    <button type="submit" class="' + CSS.SUBMIT + '">{{get_string "cancel" "core"}}</button></p>'
+        +    '    <button type="submit" class="' + CSS.CANCEL + '">{{get_string "cancel" "core"}}</button></p>'
         +    '</form>'
         + '</div>',
     OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}#{{feedback}}{{/answerdata}}&#125;',
@@ -228,6 +229,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         this._form = content;
 
         content.one('.' + CSS.SUBMIT).on('click', this._setSubquestion, this);
+        content.one('.' + CSS.CANCEL).on('click', this._setSubquestion, this);
         content.delegate('click', this._deleteAnswer, '.' + CSS.DELETE, this);
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
 
@@ -255,9 +257,11 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
         answers.forEach(function(answer) {
-            var options = /%(-?[\.0-9]+)%([^#])#*(.*)/.exec(answer);
-            if (options && options.length > 2) {
-                this._answerdata.push({answer: options[2], feedback: options[3], fraction: options[1]});
+            var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#(.*)/.exec(answer);
+            if (options) {
+                this._answerdata.push({answer: options[4],
+                    feedback: options[5],
+                    fraction: options[3] ? 100 : options[2] || 0});
             }
         }, this);
     },
@@ -298,6 +302,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _cancel: function(e) {
         e.preventDefault();
+        delete(this._qtype);
     },
 
     /**

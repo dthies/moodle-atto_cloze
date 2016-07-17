@@ -181,7 +181,10 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }, true);
 
         // Resolve whether cursor is in a subquestion.
-        this._resolveSubquestion();
+        var subquestion = this._resolveSubquestion();
+        if (subquestion) {
+            this._parseSubquestion(subquestion);
+        }
         dialogue.show();
 
         dialogue.set('bodyContent', this._getDialogueContent());
@@ -229,6 +232,34 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
 
         return content;
+    },
+
+    /**
+     * Parse question and set properties found
+     *
+     * @method _parseSubquestion
+     * @private
+     * @param {String} The question string
+     */
+    _parseSubquestion: function(question) {
+        var re = /\{([0-9]*):([_A-Z]*):(\\.|[^]*?)\}/g,
+            parts = re.exec(question);
+        if (!parts) {
+            return;
+        }
+        this._marks = parts[1];
+        this._qtype = parts[2];
+        this._answerdata = [];
+        var answers = parts[3].match(/(\\.|[^~])*/g);
+        if (!answers) {
+            return;
+        }
+        answers.forEach(function(answer) {
+            var options = /%([0-9]+)%([^#])#*(.*)/.exec(answer);
+            if (options && options.length > 2) {
+                this._answerdata.push({answer: options[2], feedback: options[3], fraction: options[1]});
+            }
+        }, this);
     },
 
     /**
@@ -352,7 +383,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _getOffset: function(container, node) {
         if (!container.contains(node)) {
-            return O;
+            return;
         }
         if (container === node) {
             return 0;

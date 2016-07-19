@@ -45,53 +45,57 @@ var CSS = {
         TYPE: 'cloze_qtype'
     };
 var TEMPLATE = {
-    FORM: '<div class="atto_cloze">'
-        +    '<p>{{qtype}}'
-        +    '<form class="atto_form">'
-        +    '    <label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>'
-        +    '    <input id="{{elementid}}_mark" type="text" class="' + CSS.MARKS + '" value="{{marks}}" />'
-        +    '{{#answerdata}}'
-        +    '<div>'
-        +    '    <button class="' + CSS.ADD + '" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button>'
-        +    '    <button class="' + CSS.DELETE + '" title="{{get_string "delete" "core"}}">-</button>'
-        +    '    <select value="{{fraction}}" class="' + CSS.FRACTION + '">'
-        +    '        <option value="{{fraction}}">{{fraction}}%</option>'
-        +    '        <option value="100">100%</option>'
-        +    '        <option value="50">50%</option>'
-        +    '        <option value="33.333">33.333%</option>'
-        +    '        <option value="25">25%</option>'
-        +    '        <option value="20">20%</option>'
-        +    '        <option value="16.6667">16.6667%</option>'
-        +    '        <option value="14.2857">14.2857%</option>'
-        +    '        <option value="12.5">12.5%</option>'
-        +    '        <option value="0">0%</option>'
-        +    '        <option value="-12.5">-12.5%</option>'
-        +    '        <option value="-14.2857">-14.2857%</option>'
-        +    '        <option value="-16.6667">-16.6667%</option>'
-        +    '        <option value="-20">-20%</option>'
-        +    '        <option value="-25">-25%</option>'
-        +    '        <option value="-33.333">-33.333%</option>'
-        +    '        <option value="-50">-50%</option>'
-        +    '        <option value="-100">-100%</option>'
-        +    '    </select>'
-        +    '    <label for="{{elementid}}_answer">{{get_string "answer" "core"}}</label>'
-        +    '    <input id="{{elementid}}_answer" type="text" class="' + CSS.ANSWER + '" value="{{answer}}" />'
-        +    '    <label for="{{elementid}}_feedback">{{get_string "feedback" "core"}}</label>'
-        +    '    <input id="{{elementid}}_feedback type="text" class="' + CSS.FEEDBACK + '" value="{{feedback}}" />'
-        +    '</div>'
-        +    '{{/answerdata}}'
-        +    '    <p><button class="' + CSS.ADD + '" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></p>'
-        +    '    <p><button type="submit" class="' + CSS.SUBMIT + '">{{get_string "common:insert" "editor_tinymce"}}</button>'
-        +    '    <button type="submit" class="' + CSS.CANCEL + '">{{get_string "cancel" "core"}}</button></p>'
-        +    '</form>'
-        + '</div>',
-    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}#{{feedback}}{{/answerdata}}&#125;',
-    TYPE: '<div class="atto_cloze">'
-        +    '{{#types}}'
-        +    '<button class="' + CSS.TYPE + '" value="{{type}}">{{type}}</button>'
-        +    '{{/types}}'
-        + '</div>'
-    };
+    FORM: '<div class="atto_cloze">' +
+             '<form class="atto_form">' +
+             '<p>{{qtype}}' +
+                 '<span id="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</span>' +
+                 '<input aria-labelledby="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
+             '<ol>{{#answerdata}}' +
+             '<li>' +
+                 '<button class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button>' +
+                 '<button class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">-</button>' +
+                 '<select value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
+                     '<option value="{{fraction}}">{{fraction}}%</option>' +
+                     '{{#../fractions}}' +
+                     '<option value="{{fraction}}">{{fraction}}%</option>' +
+                     '{{/../fractions}}' +
+                 '</select>' +
+                 '<label for="{{elementid}}_answer">{{get_string "answer" "core"}}</label>' +
+                 '<input id="{{elementid}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
+                 '<label for="{{elementid}}_feedback">{{get_string "feedback" "core"}}</label>' +
+                 '<input id="{{elementid}}_feedback type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
+             '</li>' +
+             '{{/answerdata}}</ol>' +
+                 '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></p>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
+             '</form>' +
+          '</div>',
+    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}' +
+          '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
+    TYPE: '<div class="atto_cloze">' +
+             '{{#types}}' +
+             '<button class="{{../CSS.TYPE}}" value="{{type}}">{{type}}</button>' +
+             '{{/types}}' +
+          '</div>'
+    },
+    FRACTIONS = [{fraction: 100},
+        {fraction: 50},
+        {fraction: 33.333},
+        {fraction: 25},
+        {fraction: 20},
+        {fraction: 16.667},
+        {fraction: 14.2857},
+        {fraction: 12.5},
+        {fraction: 0},
+        {fraction: -12.5},
+        {fraction: -14.2857},
+        {fraction: -16.667},
+        {fraction: -20},
+        {fraction: -25},
+        {fraction: -33.333},
+        {fraction: -50},
+        {fraction: -100}];
 
 Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {
     /**
@@ -202,7 +206,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var template, content;
         if (!this._qtype) {
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
-            content = Y.Node.create(template({types: [
+            content = Y.Node.create(template({CSS: CSS,
+                types: [
                     {type: 'MULTICHOICE'},
                     {type: 'MULTICHOICE_H'},
                     {type: 'MULTICHOICE_V'},
@@ -222,7 +227,13 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
 
         template = Y.Handlebars.compile(TEMPLATE.FORM);
 
-        content = Y.Node.create(template({answerdata: this._answerdata, qtype: this._qtype, marks: this._marks}));
+        content = Y.Node.create(template({CSS: CSS,
+            answerdata: this._answerdata,
+            elementid: Y.guid(),
+            fractions: FRACTIONS,
+            qtype: this._qtype,
+            marks: this._marks
+        }));
 
         this._form = content;
 
@@ -314,7 +325,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var template = Y.Handlebars.compile(TEMPLATE.OUTPUT);
         this._getFormData();
 
-        var question = template({answerdata: this._answerdata,
+        var question = template({
+                CSS: CSS,
+                answerdata: this._answerdata,
                 qtype: this._qtype,
                 marks: this._marks}),
             host = this.get('host');

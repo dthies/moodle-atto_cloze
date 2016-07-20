@@ -35,7 +35,7 @@ function atto_cloze_strings_for_js() {
     $PAGE->requires->strings_for_js(array( 'pluginname' ), 'atto_cloze' );
     $PAGE->requires->strings_for_js(array( 'common:insert' ), 'editor_tinymce' );
     $PAGE->requires->strings_for_js(array( 'defaultmark' ), 'core_question' );
-    $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks' ), 'qtype_calculated' );
+    $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks', 'tolerance' ), 'qtype_calculated' );
     $PAGE->requires->strings_for_js(array( 'answer', 'cancel', 'delete', 'feedback' ), 'core' );
 }
 

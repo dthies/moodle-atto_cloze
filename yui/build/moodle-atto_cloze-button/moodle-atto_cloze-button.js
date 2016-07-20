@@ -44,6 +44,7 @@ var CSS = {
         FRACTION: 'cloze_fraction',
         MARKS: 'cloze_marks',
         SUBMIT: 'cloze_submit',
+        TOLERANCE: 'cloze_tolerance',
         TYPE: 'cloze_qtype'
     };
 var TEMPLATE = {
@@ -64,6 +65,10 @@ var TEMPLATE = {
                  '</select>' +
                  '<label for="{{elementid}}_answer">{{get_string "answer" "core"}}</label>' +
                  '<input id="{{elementid}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
+                 '{{#if ../numerical}}' +
+                 '<label for="{{elementid}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
+                 '<input id="{{elementid}}_tolerance" type="text" class="{{../../CSS.TOLERANCE}}" value="{{tolerance}}" />' +
+                 '{{/if}}' +
                  '<label for="{{elementid}}_feedback">{{get_string "feedback" "core"}}</label>' +
                  '<input id="{{elementid}}_feedback type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</li>' +
@@ -74,6 +79,7 @@ var TEMPLATE = {
              '</form>' +
           '</div>',
     OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}' +
+          '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
     TYPE: '<div class="atto_cloze">' +
              '{{#types}}' +
@@ -160,7 +166,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             callback: this._displayDialogue
         });
         this._marks = 1;
-        this._answerdata = [{answer: '', feedback: '', fraction: 100}];
+        this._answerdata = [{answer: '', feedback: '', fraction: 100, tolerance: 0}];
     },
 
     /**
@@ -234,13 +240,14 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             elementid: Y.guid(),
             fractions: FRACTIONS,
             qtype: this._qtype,
-            marks: this._marks
+            marks: this._marks,
+            numerical: (this._qtype === 'NUMERICAL' || this._qtype === 'NM')
         }));
 
         this._form = content;
 
         content.one('.' + CSS.SUBMIT).on('click', this._setSubquestion, this);
-        content.one('.' + CSS.CANCEL).on('click', this._setSubquestion, this);
+        content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
         content.delegate('click', this._deleteAnswer, '.' + CSS.DELETE, this);
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
 
@@ -255,7 +262,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @param {String} The question string
      */
     _parseSubquestion: function(question) {
-        var re = /\{([0-9]*):([_A-Z]*):(\\.|[^]*?)\}/g,
+        var re = /\{([0-9]*):([_A-Z]+):(\\.|[^]*?)\}/g,
             parts = re.exec(question);
         if (!parts) {
             return;
@@ -267,9 +274,19 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         if (!answers) {
             return;
         }
+console.log(answers);
         answers.forEach(function(answer) {
             var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#(.*)/.exec(answer);
             if (options) {
+                if (this._qtype === 'NUMERICAL' || this._qtype === 'NM') {
+                    var tolerance = /^([^:]*):?(.*)/.exec(options[4])[2] || 0;
+                    this._answerdata.push({
+                        answer: options[4].replace(/:.*/, ''),
+                        feedback: options[5],
+                        tolerance: tolerance,
+                        fraction: options[3] ? 100 : options[2] || 0});
+                    return;
+                }
                 this._answerdata.push({answer: options[4],
                     feedback: options[5],
                     fraction: options[3] ? 100 : options[2] || 0});
@@ -287,7 +304,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
        e.preventDefault();
        var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
        this._getFormData()
-           ._answerdata.splice(index, 0, {answer: '', feedback: '', fraction: 0});
+           ._answerdata.splice(index, 0, {answer: '', feedback: '', fraction: 0, tolerance: 0});
        this._dialogue.set('bodyContent', this._getDialogueContent());
     },
 
@@ -314,6 +331,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     _cancel: function(e) {
         e.preventDefault();
         delete(this._qtype);
+        this._dialogue.hide();
     },
 
     /**
@@ -355,12 +373,13 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         this._answerdata = [];
         var answers = this._form.all('.' + CSS.ANSWER),
             feedbacks = this._form.all('.' + CSS.FEEDBACK),
-            fractions = this._form.all('.' + CSS.FRACTION);
+            fractions = this._form.all('.' + CSS.FRACTION),
+            tolerances = this._form.all('.' + CSS.TOLERANCE);
         for(var i = 0; i < answers.size(); i++) {
-            //this._answerdata.push({answer: answers.item(i).getAttribute('value'),
             this._answerdata.push({answer: answers.item(i).getDOMNode().value,
                 feedback: feedbacks.item(i).getDOMNode().value,
-                fraction: fractions.item(i).getDOMNode().value});
+                fraction: fractions.item(i).getDOMNode().value,
+                tolerance: tolerances.item(i) ? tolerances.item(i).getDOMNode().value : 0});
             this._marks = this._form.one('.' + CSS.MARKS).getDOMNode().value;
         }
         return this;

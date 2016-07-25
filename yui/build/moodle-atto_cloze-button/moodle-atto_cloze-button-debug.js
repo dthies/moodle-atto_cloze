@@ -36,43 +36,47 @@ YUI.add('moodle-atto_cloze-button', function (Y, NAME) {
 var COMPONENTNAME = 'atto_cloze';
 
 var CSS = {
-        ANSWER: 'cloze_answer',
-        ADD: 'cloze_add',
-        CANCEL: 'cloze_cancel',
-        DELETE: 'cloze_delete',
-        FEEDBACK: 'cloze_feedback',
-        FRACTION: 'cloze_fraction',
-        MARKS: 'cloze_marks',
-        SUBMIT: 'cloze_submit',
-        TOLERANCE: 'cloze_tolerance',
-        TYPE: 'cloze_qtype'
+        ANSWER: 'atto_cloze_answer',
+        ADD: 'atto_cloze_add',
+        CANCEL: 'atto_cloze_cancel',
+        DELETE: 'atto_cloze_delete',
+        FEEDBACK: 'atto_cloze_feedback',
+        FRACTION: 'atto_cloze_fraction',
+        LEFT: 'atto_cloze_col0',
+        RIGHT: 'atto_cloze_col1',
+        MARKS: 'atto_cloze_marks',
+        SUBMIT: 'atto_cloze_submit',
+        TOLERANCE: 'atto_cloze_tolerance',
+        TYPE: 'atto_cloze_qtype'
     };
 var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<form class="atto_form">' +
              '<p>{{qtype}}' +
-                 '<span id="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</span>' +
-                 '<input aria-labelledby="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
+                 '<label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>' +
+                 '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
              '<ol>{{#answerdata}}' +
-             '<li>' +
+             '<li><div><div class="{{../CSS.LEFT}}">' +
                  '<button class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button>' +
-                 '<button class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">-</button>' +
-                 '<select value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
+                 '<button class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">-</button><br />' +
+                 '<label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
+                 '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '<option value="{{fraction}}">{{fraction}}%</option>' +
                      '{{#../fractions}}' +
                      '<option value="{{fraction}}">{{fraction}}%</option>' +
                      '{{/../fractions}}' +
-                 '</select>' +
-                 '<label for="{{elementid}}_answer">{{get_string "answer" "core"}}</label>' +
-                 '<input id="{{elementid}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
+                 '</select></div>' +
+                 '<div class="{{../CSS.RIGHT}}">' +
+                 '<label for="{{id}}_answer">{{get_string "answer" "core"}}</label>' +
+                 '<input id="{{id}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
                  '{{#if ../numerical}}' +
-                 '<label for="{{elementid}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
-                 '<input id="{{elementid}}_tolerance" type="text" class="{{../../CSS.TOLERANCE}}" value="{{tolerance}}" />' +
+                 '<label for="{{id}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
+                 '<input id="{{id}}_tolerance" type="text" class="{{../../CSS.TOLERANCE}}" value="{{tolerance}}" />' +
                  '{{/if}}' +
-                 '<label for="{{elementid}}_feedback">{{get_string "feedback" "core"}}</label>' +
-                 '<input id="{{elementid}}_feedback type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
-             '</li>' +
-             '{{/answerdata}}</ol>' +
+                 '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
+                 '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
+             '</div></div>' +
+             '{{/answerdata}}' +
                  '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></p>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
@@ -166,7 +170,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             callback: this._displayDialogue
         });
         this._marks = 1;
-        this._answerdata = [{answer: '', feedback: '', fraction: 100, tolerance: 0}];
+        this._answerdata = [{id: Y.guid(), answer: '', feedback: '', fraction: 100, tolerance: 0}];
     },
 
     /**
@@ -216,14 +220,14 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
             content = Y.Node.create(template({CSS: CSS,
                 types: [
-                    {type: 'MULTICHOICE'},
-                    {type: 'MULTICHOICE_H'},
-                    {type: 'MULTICHOICE_V'},
-                    {type: 'MULTICHOICE_S'},
-                    {type: 'MULTICHOICE_HS'},
-                    {type: 'MULTICHOICE_VS'},
-                    {type: 'NUMERICAL'},
-                    {type: 'SHORTANSWER'}
+                    {type: 'MULTICHOICE', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'MULTICHOICE_H', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'MULTICHOICE_V', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'MULTICHOICE_S', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'MULTICHOICE_HS', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'MULTICHOICE_VS', name: M.util.get_string('multichoice', 'mod_quiz')},
+                    {type: 'NUMERICAL', name: M.util.get_string('numerical', 'mod_quiz')},
+                    {type: 'SHORTANSWER', name: M.util.get_string('shortanswer', 'mod_quiz')}
                 ]}));
             this._form = content;
             content.delegate('click', function(e) {
@@ -282,12 +286,14 @@ console.log(answers);
                     var tolerance = /^([^:]*):?(.*)/.exec(options[4])[2] || 0;
                     this._answerdata.push({
                         answer: options[4].replace(/:.*/, ''),
+                        id: Y.guid(),
                         feedback: options[5],
                         tolerance: tolerance,
                         fraction: options[3] ? 100 : options[2] || 0});
                     return;
                 }
                 this._answerdata.push({answer: options[4],
+                    id: Y.guid(),
                     feedback: options[5],
                     fraction: options[3] ? 100 : options[2] || 0});
             }
@@ -304,7 +310,7 @@ console.log(answers);
        e.preventDefault();
        var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
        this._getFormData()
-           ._answerdata.splice(index, 0, {answer: '', feedback: '', fraction: 0, tolerance: 0});
+           ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
        this._dialogue.set('bodyContent', this._getDialogueContent());
     },
 
@@ -377,7 +383,7 @@ console.log(answers);
             tolerances = this._form.all('.' + CSS.TOLERANCE);
         for(var i = 0; i < answers.size(); i++) {
             this._answerdata.push({answer: answers.item(i).getDOMNode().value,
-                feedback: feedbacks.item(i).getDOMNode().value,
+                id: Y.guid(), feedback: feedbacks.item(i).getDOMNode().value,
                 fraction: fractions.item(i).getDOMNode().value,
                 tolerance: tolerances.item(i) ? tolerances.item(i).getDOMNode().value : 0});
             this._marks = this._form.one('.' + CSS.MARKS).getDOMNode().value;

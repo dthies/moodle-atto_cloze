@@ -17,8 +17,8 @@
 /**
  * Atto text editor integration version file.
  *
- * @package    atto_mathslate
- * @copyright  2013 onward Daniel Thies <dthies@ccal.edu>
+ * @package    atto_cloze
+ * @copyright  2016 onward Daniel Thies <dthies@ccal.edu>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,8 @@ function atto_cloze_strings_for_js() {
     $PAGE->requires->strings_for_js(array( 'pluginname' ), 'atto_cloze' );
     $PAGE->requires->strings_for_js(array( 'common:insert' ), 'editor_tinymce' );
     $PAGE->requires->strings_for_js(array( 'defaultmark' ), 'core_question' );
+    $PAGE->requires->strings_for_js(array( 'multichoice', 'numerical', 'shortanswer' ), 'mod_quiz' );
     $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks', 'tolerance' ), 'qtype_calculated' );
-    $PAGE->requires->strings_for_js(array( 'answer', 'cancel', 'delete', 'feedback' ), 'core' );
+    $PAGE->requires->strings_for_js(array( 'answer', 'cancel', 'delete', 'feedback', 'grade' ), 'core' );
 }
 

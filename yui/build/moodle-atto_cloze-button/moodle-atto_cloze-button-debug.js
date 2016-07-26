@@ -36,19 +36,19 @@ YUI.add('moodle-atto_cloze-button', function (Y, NAME) {
 var COMPONENTNAME = 'atto_cloze';
 
 var CSS = {
-        ANSWER: 'atto_cloze_answer',
-        ADD: 'atto_cloze_add',
-        CANCEL: 'atto_cloze_cancel',
-        DELETE: 'atto_cloze_delete',
-        FEEDBACK: 'atto_cloze_feedback',
-        FRACTION: 'atto_cloze_fraction',
-        LEFT: 'atto_cloze_col0',
-        RIGHT: 'atto_cloze_col1',
-        MARKS: 'atto_cloze_marks',
-        SUBMIT: 'atto_cloze_submit',
-        TOLERANCE: 'atto_cloze_tolerance',
-        TYPE: 'atto_cloze_qtype'
-    };
+    ANSWER: 'atto_cloze_answer',
+    ADD: 'atto_cloze_add',
+    CANCEL: 'atto_cloze_cancel',
+    DELETE: 'atto_cloze_delete',
+    FEEDBACK: 'atto_cloze_feedback',
+    FRACTION: 'atto_cloze_fraction',
+    LEFT: 'atto_cloze_col0',
+    RIGHT: 'atto_cloze_col1',
+    MARKS: 'atto_cloze_marks',
+    SUBMIT: 'atto_cloze_submit',
+    TOLERANCE: 'atto_cloze_tolerance',
+    TYPE: 'atto_cloze_qtype'
+};
 var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<form class="atto_form">' +
@@ -204,7 +204,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
 
         dialogue.set('bodyContent', this._getDialogueContent());
         this._dialogue = dialogue;
-   },
+    },
 
     /**
      * Return the dialogue content for the tool, attaching any required
@@ -278,7 +278,6 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         if (!answers) {
             return;
         }
-console.log(answers);
         answers.forEach(function(answer) {
             var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#(.*)/.exec(answer);
             if (options) {
@@ -307,11 +306,11 @@ console.log(answers);
      * @private
      */
     _addAnswer: function(e) {
-       e.preventDefault();
-       var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
-       this._getFormData()
-           ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
-       this._dialogue.set('bodyContent', this._getDialogueContent());
+        e.preventDefault();
+        var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
+        this._getFormData()
+            ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
+        this._dialogue.set('bodyContent', this._getDialogueContent());
     },
 
     /**
@@ -321,11 +320,11 @@ console.log(answers);
      * @private
      */
     _deleteAnswer: function(e) {
-       e.preventDefault();
-       var index = this._form.all('.' + CSS.DELETE).indexOf(e.target);
-       this._getFormData()
-           ._answerdata.splice(index, 1);
-       this._dialogue.set('bodyContent', this._getDialogueContent());
+        e.preventDefault();
+        var index = this._form.all('.' + CSS.DELETE).indexOf(e.target);
+        this._getFormData()
+            ._answerdata.splice(index, 1);
+        this._dialogue.set('bodyContent', this._getDialogueContent());
     },
 
     /**
@@ -351,11 +350,12 @@ console.log(answers);
         var template = Y.Handlebars.compile(TEMPLATE.OUTPUT);
         this._getFormData();
 
-        var question = template({
-                CSS: CSS,
+        var question = template(
+            {CSS: CSS,
                 answerdata: this._answerdata,
                 qtype: this._qtype,
-                marks: this._marks}),
+                marks: this._marks
+            }),
             host = this.get('host');
 
         this._dialogue.hide();
@@ -389,7 +389,7 @@ console.log(answers);
             this._marks = this._form.one('.' + CSS.MARKS).getDOMNode().value;
         }
         return this;
-   },
+    },
 
     /**
      * Locate a node and offset to be used as a end of a range representing an
@@ -404,15 +404,15 @@ console.log(answers);
      * @private
      */
     _getAnchor: function(node, offset) {
-      if (!node.hasChildNodes()) {
-          return {anchor: node, offset: offset};
-      }
-      var child = node.firstChild;
-      while (offset > child.textContent.length) {
-          offset -= child.textContent.length;
-          child = child.nextSibling;
-      }
-      return this._getAnchor(child, offset);
+        if (!node.hasChildNodes()) {
+            return {anchor: node, offset: offset};
+        }
+        var child = node.firstChild;
+        while (offset > child.textContent.length) {
+            offset -= child.textContent.length;
+            child = child.nextSibling;
+        }
+        return this._getAnchor(child, offset);
     },
 
     /**
@@ -450,7 +450,7 @@ console.log(answers);
      */
     _resolveSubquestion: function() {
         var host = this.get('host'),
-            selectedNode =  host.getSelectionParentNode(),
+            selectedNode = host.getSelectionParentNode(),
             re = /\{[^]*?\}/g;
 
         if (!selectedNode) {
@@ -477,13 +477,13 @@ console.log(answers);
             index = selectedNode.textContent.indexOf(subquestion, questionEnd);
             questionEnd = index + subquestion.length;
             if (index < startIndex && endIndex < questionEnd) {
-               result = subquestion;
-               var startRange = this._getAnchor(selectedNode, index);
-               var endRange = this._getAnchor(selectedNode, questionEnd);
-               selection[0].setStart(startRange.anchor, startRange.offset);
-               selection[0].setEnd(endRange.anchor, endRange.offset);
-               this.get('host').setSelection(selection);
-               this._currentSelection = host.getSelection();
+                result = subquestion;
+                var startRange = this._getAnchor(selectedNode, index);
+                var endRange = this._getAnchor(selectedNode, questionEnd);
+                selection[0].setStart(startRange.anchor, startRange.offset);
+                selection[0].setEnd(endRange.anchor, endRange.offset);
+                this.get('host').setSelection(selection);
+                this._currentSelection = host.getSelection();
             }
         }, this);
 

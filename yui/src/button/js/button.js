@@ -217,16 +217,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         if (!this._qtype) {
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
             content = Y.Node.create(template({CSS: CSS,
-                types: [
-                    {type: 'MULTICHOICE', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'MULTICHOICE_H', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'MULTICHOICE_V', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'MULTICHOICE_S', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'MULTICHOICE_HS', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'MULTICHOICE_VS', name: M.util.get_string('multichoice', 'mod_quiz')},
-                    {type: 'NUMERICAL', name: M.util.get_string('numerical', 'mod_quiz')},
-                    {type: 'SHORTANSWER', name: M.util.get_string('shortanswer', 'mod_quiz')}
-                ]}));
+                types: this.get('questiontypes')
+                }));
             this._form = content;
             content.delegate('click', function(e) {
                 this._qtype = e.target.getAttribute('value');
@@ -486,5 +478,15 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }, this);
 
         return result;
+    }
+}, {
+    ATTRS: {
+        /**
+         * The list of subquestion types available in this version of Moodle.
+         *
+         * @attribute questiontypes
+         * @type array
+         */
+        questiontypes: []
     }
 });

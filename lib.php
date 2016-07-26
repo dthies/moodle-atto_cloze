@@ -40,3 +40,25 @@ function atto_cloze_strings_for_js() {
     $PAGE->requires->strings_for_js(array( 'answer', 'cancel', 'delete', 'feedback', 'grade' ), 'core' );
 }
 
+function atto_cloze_params_for_js($elementid, $options, $fpoptions) {
+    global $CFG;
+    require($CFG->dirroot . '/version.php');
+    $qtypes = array(
+        array('type' => 'MULTICHOICE', 'name' => get_string('multichoice', 'mod_quiz')),
+        array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz')),
+        array('type' => 'MULTICHOICE_V', 'name' => get_string('multichoice', 'mod_quiz')),
+    );
+    // Check whether shuffled multichoice is supported yet.
+    if ($version >= 2015111604) {
+        $qtypes = array_merge($qtypes, array(
+            array('type' => 'MULTICHOICE_S', 'name' => get_string('multichoice', 'mod_quiz')),
+            array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz')),
+            array('type' => 'MULTICHOICE_VS', 'name' => get_string('multichoice', 'mod_quiz')),
+        ));
+    }
+    $qtypes = array_merge($qtypes, array(
+        array('type' => 'NUMERICAL', 'name' => get_string('numerical', 'mod_quiz')),
+        array('type' => 'SHORTANSWER', 'name' => get_string('shortanswer', 'mod_quiz')),
+    ));
+    return array('questiontypes' => $qtypes);
+}

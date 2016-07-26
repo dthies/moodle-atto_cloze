@@ -37,6 +37,7 @@ var COMPONENTNAME = 'atto_cloze';
 
 var CSS = {
     ANSWER: 'atto_cloze_answer',
+    ANSWERS: 'atto_cloze_answers',
     ADD: 'atto_cloze_add',
     CANCEL: 'atto_cloze_cancel',
     DELETE: 'atto_cloze_delete',
@@ -55,6 +56,7 @@ var TEMPLATE = {
              '<p>{{qtype}}' +
                  '<label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>' +
                  '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
+             '<div class="{{CSS.ANSWERS}}">' +
              '<ol>{{#answerdata}}' +
              '<li><div><div class="{{../CSS.LEFT}}">' +
                  '<button class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button>' +
@@ -76,8 +78,8 @@ var TEMPLATE = {
                  '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</div></div>' +
-             '{{/answerdata}}' +
-                 '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></p>' +
+             '{{/answerdata}}</ol>' +
+                 '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></div></p>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +

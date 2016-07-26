@@ -3,3 +3,8 @@
     width: 25%;
     padding-right: 2em;
 }
+
+.atto_cloze_answers {
+    overflow: auto;
+    height: 300px;
+}

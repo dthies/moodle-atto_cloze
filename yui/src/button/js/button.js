@@ -248,6 +248,10 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
                     this._dialogue.set('bodyContent', this._getDialogueContent());
                 }
             }, this);
+            content.one('.' + CSS.CANCEL).on('click', function(e) {
+                e.preventDefault();
+                this._dialogue.hide();
+            }, this);
             return content;
         }
 

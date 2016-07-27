@@ -88,10 +88,18 @@ var TEMPLATE = {
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
     TYPE: '<div class="atto_cloze">' +
+             '<form ="atto_form">' +
+             '<div class="{{CSS.TYPE}}">' +
              '{{#types}}' +
-             '<button class="{{../CSS.TYPE}}" value="{{type}}">{{type}}</button>' +
-             '{{/types}}' +
-          '</div>'
+             '<div class="option">' +
+                 '<label for="qtype_qtype_{{type}}">' +
+                 '<input name="qtype" id="qtype_qtype_{{type}}" value="{{type}}" type="radio">' +
+                 '<span class="typename">{{type}}</span><span class="typesummary"><p>{{summary}}</p>' +
+                 '</span></label></div>' +
+             '{{/types}}</div>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
+          '</form></div>'
     },
     FRACTIONS = [{fraction: 100},
         {fraction: 50},
@@ -234,10 +242,14 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
                 types: this.get('questiontypes')
                 }));
             this._form = content;
-            content.delegate('click', function(e) {
-                this._qtype = e.target.getAttribute('value');
-                this._dialogue.set('bodyContent', this._getDialogueContent());
-            }, '.' + CSS.TYPE, this);
+            content.one('.' + CSS.SUBMIT).on('click', function(e) {
+                e.preventDefault();
+                var qtype = this._form.one('form').getDOMNode().qtype;
+                if (qtype) {
+                    this._qtype = qtype.value;
+                    this._dialogue.set('bodyContent', this._getDialogueContent());
+                }
+            }, this);
             return content;
         }
 

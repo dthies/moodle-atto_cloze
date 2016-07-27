@@ -8,3 +8,9 @@
     overflow: auto;
     height: 300px;
 }
+
+.atto_cloze_qtype {
+    overflow: auto;
+    height: 500px;
+}
+

@@ -44,21 +44,36 @@ function atto_cloze_params_for_js($elementid, $options, $fpoptions) {
     global $CFG;
     require($CFG->dirroot . '/version.php');
     $qtypes = array(
-        array('type' => 'MULTICHOICE', 'name' => get_string('multichoice', 'mod_quiz')),
-        array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz')),
-        array('type' => 'MULTICHOICE_V', 'name' => get_string('multichoice', 'mod_quiz')),
+        array('type' => 'MULTICHOICE', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice')),
+        array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
+              get_string('layouthorizontal', 'qtype_multianswer')),
+        array('type' => 'MULTICHOICE_V', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
+              get_string('layoutvertical', 'qtype_multianswer')),
     );
     // Check whether shuffled multichoice is supported yet.
     if ($version >= 2015111604) {
         $qtypes = array_merge($qtypes, array(
-            array('type' => 'MULTICHOICE_S', 'name' => get_string('multichoice', 'mod_quiz')),
-            array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz')),
-            array('type' => 'MULTICHOICE_VS', 'name' => get_string('multichoice', 'mod_quiz')),
+            array('type' => 'MULTICHOICE_S', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
+              get_string('shufflewithin', 'mod_quiz')),
+            array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
+              get_string('shufflewithin', 'mod_quiz') . ' ' .
+              get_string('layouthorizontal', 'qtype_multianswer')),
+            array('type' => 'MULTICHOICE_VS', 'name' => get_string('multichoice', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
+              get_string('shufflewithin', 'mod_quiz') . ' ' .
+              get_string('layoutvertical', 'qtype_multianswer')),
         ));
     }
     $qtypes = array_merge($qtypes, array(
-        array('type' => 'NUMERICAL', 'name' => get_string('numerical', 'mod_quiz')),
-        array('type' => 'SHORTANSWER', 'name' => get_string('shortanswer', 'mod_quiz')),
+        array('type' => 'NUMERICAL', 'name' => get_string('numerical', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_numerical')),
+        array('type' => 'SHORTANSWER', 'name' => get_string('shortanswer', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_shortanswer')),
     ));
     return array('questiontypes' => $qtypes);
 }

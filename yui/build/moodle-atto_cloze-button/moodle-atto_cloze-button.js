@@ -172,7 +172,6 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             callback: this._displayDialogue
         });
         this._marks = 1;
-        this._answerdata = [{id: Y.guid(), answer: '', feedback: '', fraction: 100, tolerance: 0}];
     },
 
     /**
@@ -190,6 +189,17 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         if (this._currentSelection === false) {
             return;
         }
+
+        // Initialize answer to selected string.
+        this._answerdata = [
+            {
+                id: Y.guid(),
+                answer: this._currentSelection.toString(),
+                feedback: '',
+                fraction: 100,
+                tolerance: 0
+            }
+        ];
 
         var dialogue = this.getDialogue({
             headerContent: M.util.get_string('pluginname', COMPONENTNAME),
@@ -273,8 +283,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
         answers.forEach(function(answer) {
-            var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#(.*)/.exec(answer);
-            if (options) {
+            var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#?(.*)/.exec(answer);
+            if (options && options[4]) {
                 if (this._qtype === 'NUMERICAL' || this._qtype === 'NM') {
                     var tolerance = /^([^:]*):?(.*)/.exec(options[4])[2] || 0;
                     this._answerdata.push({

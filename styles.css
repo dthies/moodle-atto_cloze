@@ -11,6 +11,19 @@
 
 .atto_cloze_qtype {
     overflow: auto;
-    height: 500px;
+    position: relative;
 }
 
+.atto_cloze_qtype label {
+}
+
+.atto_cloze_qtype .atto_cloze_summary {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 150px;
+}
+
+.atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {
+    display: inline;
+}

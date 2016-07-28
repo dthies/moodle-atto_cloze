@@ -47,6 +47,7 @@ var CSS = {
     RIGHT: 'atto_cloze_col1',
     MARKS: 'atto_cloze_marks',
     SUBMIT: 'atto_cloze_submit',
+    SUMMARY: 'atto_cloze_summary',
     TOLERANCE: 'atto_cloze_tolerance',
     TYPE: 'atto_cloze_qtype'
 };
@@ -87,17 +88,22 @@ var TEMPLATE = {
     OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}' +
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
-    TYPE: '<div class="atto_cloze">' +
+    TYPE: '<div class="atto_cloze">{{get_string "chooseqtypetoadd" "question"}}' +
              '<form ="atto_form">' +
              '<div class="{{CSS.TYPE}}">' +
              '{{#types}}' +
              '<div class="option">' +
-                 '<label for="qtype_qtype_{{type}}">' +
                  '<input name="qtype" id="qtype_qtype_{{type}}" value="{{type}}" type="radio">' +
-                 '<span class="typename">{{type}}</span><span class="typesummary"><p>{{summary}}</p>' +
-                 '</span></label></div>' +
+                 '<label for="qtype_qtype_{{type}}">' +
+                 '<span class="typename">{{type}}</span>' +
+                 '<span class="{{../CSS.SUMMARY}}"><h6>{{name}}</h6><p>{{summary}}</p>' +
+                 '<ul>{{#options}}' +
+                 '<li>{{option}}</li>' +
+                 '{{/options}}</ul>' +
+                 '</span>' +
+                 '</label></div>' +
              '{{/types}}</div>' +
-                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "add" "core"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
           '</form></div>'
     },

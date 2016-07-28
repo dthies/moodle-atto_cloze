@@ -34,39 +34,51 @@ function atto_cloze_strings_for_js() {
 
     $PAGE->requires->strings_for_js(array( 'pluginname' ), 'atto_cloze' );
     $PAGE->requires->strings_for_js(array( 'common:insert' ), 'editor_tinymce' );
+    $PAGE->requires->strings_for_js(array( 'chooseqtypetoadd' ), 'question' );
     $PAGE->requires->strings_for_js(array( 'defaultmark' ), 'core_question' );
     $PAGE->requires->strings_for_js(array( 'multichoice', 'numerical', 'shortanswer' ), 'mod_quiz' );
     $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks', 'tolerance' ), 'qtype_calculated' );
-    $PAGE->requires->strings_for_js(array( 'answer', 'cancel', 'delete', 'feedback', 'grade' ), 'core' );
+    $PAGE->requires->strings_for_js(array( 'add', 'answer', 'cancel', 'delete', 'feedback', 'grade' ), 'core' );
 }
 
 function atto_cloze_params_for_js($elementid, $options, $fpoptions) {
     global $CFG;
     require($CFG->dirroot . '/version.php');
+
+    $selectinline = array('option' => get_string('layoutselectinline', 'qtype_multianswer'));
+    $horizontal = array('option' => get_string('layouthorizontal', 'qtype_multianswer'));
+    $vertical = array('option' => get_string('layoutvertical', 'qtype_multianswer'));
     $qtypes = array(
         array('type' => 'MULTICHOICE', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice')),
+            'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+            'options' => array($selectinline)
+        ),
         array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
-              get_string('layouthorizontal', 'qtype_multianswer')),
+            'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+            'options' => array($horizontal)
+        ),
         array('type' => 'MULTICHOICE_V', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
-              get_string('layoutvertical', 'qtype_multianswer')),
+            'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+            'options' => array($vertical)
+        ),
     );
     // Check whether shuffled multichoice is supported yet.
     if ($version >= 2015111604) {
+        $shuffle = array('option' => get_string('shufflewithin', 'mod_quiz'));
         $qtypes = array_merge($qtypes, array(
+
             array('type' => 'MULTICHOICE_S', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
-              get_string('shufflewithin', 'mod_quiz')),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($selectinline, $shuffle)
+            ),
             array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
-              get_string('shufflewithin', 'mod_quiz') . ' ' .
-              get_string('layouthorizontal', 'qtype_multianswer')),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($horizontal, $shuffle)
+            ),
             array('type' => 'MULTICHOICE_VS', 'name' => get_string('multichoice', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_multichoice') . ' ' .
-              get_string('shufflewithin', 'mod_quiz') . ' ' .
-              get_string('layoutvertical', 'qtype_multianswer')),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($vertical, $shuffle)
+            ),
         ));
     }
     $qtypes = array_merge($qtypes, array(

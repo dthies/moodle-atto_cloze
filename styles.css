@@ -21,7 +21,7 @@
     display: none;
     position: absolute;
     top: 0px;
-    left: 150px;
+    left: 175px;
 }
 
 .atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {

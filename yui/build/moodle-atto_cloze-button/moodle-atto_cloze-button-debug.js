@@ -46,6 +46,7 @@ var CSS = {
     LEFT: 'atto_cloze_col0',
     RIGHT: 'atto_cloze_col1',
     MARKS: 'atto_cloze_marks',
+    DUPLICATE: 'atto_cloze_duplicate',
     SUBMIT: 'atto_cloze_submit',
     SUMMARY: 'atto_cloze_summary',
     TOLERANCE: 'atto_cloze_tolerance',
@@ -104,6 +105,7 @@ var TEMPLATE = {
                  '</label></div>' +
              '{{/types}}</div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "add" "core"}}</button>' +
+                 '<button type="submit" class="{{CSS.DUPLICATE}}">{{get_string "duplicate" "core"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
           '</form></div>'
     },
@@ -152,6 +154,16 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _qtype: null,
+
+    /**
+     * The text initial selected to use as answer default
+     *
+     * @param _selectedText
+     * @type String
+     * @private
+     */
+    _selectedText: null,
+
 
     /**
      * The maximum marks for the sub question
@@ -204,16 +216,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
 
-        // Initialize answer to selected string.
-        this._answerdata = [
-            {
-                id: Y.guid(),
-                answer: this._currentSelection.toString(),
-                feedback: '',
-                fraction: 100,
-                tolerance: 0
-            }
-        ];
+        // Save selected string to set answer default answer.
+        this._selectedText = this._currentSelection.toString();
 
         var dialogue = this.getDialogue({
             headerContent: M.util.get_string('pluginname', COMPONENTNAME),
@@ -225,10 +229,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var subquestion = this._resolveSubquestion();
         if (subquestion) {
             this._parseSubquestion(subquestion);
+            dialogue.set('bodyContent', this._getDialogueContent(null, this._qtype));
+        } else {
+            dialogue.set('bodyContent', this._getDialogueContent());
         }
         dialogue.show();
 
-        dialogue.set('bodyContent', this._getDialogueContent());
         this._dialogue = dialogue;
     },
 
@@ -237,29 +243,23 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * events.
      *
      * @method _getDialogueContent
+     * @param {Event} The event causing content to change
+     * @param {String} The question type to be used
      * @return {Node} The content to place in the dialogue.
      * @private
      */
-    _getDialogueContent: function() {
+    _getDialogueContent: function(e, qtype) {
         var template, content;
-        if (!this._qtype) {
+        if (!qtype) {
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
             content = Y.Node.create(template({CSS: CSS,
                 types: this.get('questiontypes')
                 }));
             this._form = content;
-            content.one('.' + CSS.SUBMIT).on('click', function(e) {
-                e.preventDefault();
-                var qtype = this._form.one('form').getDOMNode().qtype;
-                if (qtype) {
-                    this._qtype = qtype.value;
-                    this._dialogue.set('bodyContent', this._getDialogueContent());
-                }
-            }, this);
-            content.one('.' + CSS.CANCEL).on('click', function(e) {
-                e.preventDefault();
-                this._dialogue.hide();
-            }, this);
+
+            content.one('.' + CSS.SUBMIT).on('click', this._choiceHandler, this);
+            content.one('.'+ CSS.DUPLICATE).on('click', this._choiceHandler, this);
+            content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
             return content;
         }
 
@@ -282,6 +282,33 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
 
         return content;
+    },
+
+    /**
+     * Handle question choice
+     *
+     * @method _choiceHandler
+     * @private
+     * @param {Event} Event from button click in chooser
+     */
+    _choiceHandler: function(e) {
+        e.preventDefault();
+        var qtype = this._form.one('form').getDOMNode().qtype;
+        if (qtype && qtype.value) {
+            this._qtype = qtype.value;
+        }
+        if (e && e.currentTarget && e.currentTarget.hasClass(CSS.SUBMIT)) {
+            this._answerdata = [
+                {
+                    id: Y.guid(),
+                    answer: this._selectedText,
+                    feedback: '',
+                    fraction: 100,
+                    tolerance: 0
+                }
+            ];
+        }
+                this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
     },
 
     /**
@@ -336,7 +363,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
         this._getFormData()
             ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
-        this._dialogue.set('bodyContent', this._getDialogueContent());
+        this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
     },
 
     /**
@@ -350,7 +377,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var index = this._form.all('.' + CSS.DELETE).indexOf(e.target);
         this._getFormData()
             ._answerdata.splice(index, 1);
-        this._dialogue.set('bodyContent', this._getDialogueContent());
+        this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
     },
 
     /**
@@ -361,7 +388,6 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _cancel: function(e) {
         e.preventDefault();
-        delete(this._qtype);
         this._dialogue.hide();
     },
 
@@ -389,9 +415,6 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         host.setSelection(this._currentSelection);
 
         host.insertContentAtFocusPoint(question);
-        delete(this._qtype);
-        delete(this._answerdata);
-
     },
 
     /**

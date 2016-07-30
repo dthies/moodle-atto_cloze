@@ -35,8 +35,11 @@ Feature: Atto cloze editor button
     And I set the field "Question text" to "Bunny"
     And I select the text in the "Question text" Atto editor
     And I click on "Cloze editor" "button"
+    And I wait "10" seconds
     And I click on "SHORTANSWER" "radio" in the "Cloze editor" "dialogue"
     And I click on "Add" "button" in the "Cloze editor" "dialogue"
+    And I wait "10" seconds
+    And I set the field "Answer" to "Duck"
     And I wait "10" seconds
     And I click on "Insert" "button" in the "Cloze editor" "dialogue"
     Then I should see "{1:SHORTANSWER:~%100%Bunny}"

@@ -1,12 +1,12 @@
 .atto_cloze_col0 {
     float: left;
-    width: 25%;
     padding-right: 2em;
+    width: 25%;
 }
 
 .atto_cloze_answers {
-    overflow: auto;
     height: 300px;
+    overflow: auto;
 }
 
 .atto_cloze_qtype {
@@ -19,9 +19,9 @@
 
 .atto_cloze_qtype .atto_cloze_summary {
     display: none;
+    left: 175px;
     position: absolute;
     top: 0px;
-    left: 175px;
 }
 
 .atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {

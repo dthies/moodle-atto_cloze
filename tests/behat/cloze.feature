@@ -36,6 +36,6 @@ Feature: Atto bold button
     And I click on "SHORTANSWER" "radio" in the "Cloze editor" "dialogue"
     And I click on "Add" "button" in the "Cloze editor" "dialogue"
     And I set the field "Feedback" to "Funny"
-    And I press "Insert"
+    And I press "Insert" "button" in the "Cloze editor" "dialogue"
     Then I should see "{1:SHORTANSWER:~%100%Bunny}"
 

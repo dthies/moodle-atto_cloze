@@ -41,7 +41,7 @@ function atto_cloze_strings_for_js() {
     $PAGE->requires->strings_for_js(array( 'add', 'answer', 'cancel', 'delete', 'duplicate', 'feedback', 'grade', 'previous' ), 'core' );
 }
 
-function atto_cloze_params_for_js($elementid, $options, $fpoptions) {
+function atto_cloze_params_for_js() {
     global $CFG;
     require($CFG->dirroot . '/version.php');
 

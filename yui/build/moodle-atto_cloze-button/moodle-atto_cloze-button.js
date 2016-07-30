@@ -250,6 +250,11 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _getDialogueContent: function(e, qtype) {
         var template, content;
+
+        if (this._form) {
+            this._form.remove(true);
+        }
+
         if (!qtype) {
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
             content = Y.Node.create(template({CSS: CSS,

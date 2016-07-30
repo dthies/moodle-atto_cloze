@@ -14,14 +14,11 @@
     position: relative;
 }
 
-.atto_cloze_qtype label {
-}
-
 .atto_cloze_qtype .atto_cloze_summary {
     display: none;
     left: 175px;
     position: absolute;
-    top: 0px;
+    top: 0;
 }
 
 .atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {

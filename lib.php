@@ -38,7 +38,8 @@ function atto_cloze_strings_for_js() {
     $PAGE->requires->strings_for_js(array( 'defaultmark' ), 'core_question' );
     $PAGE->requires->strings_for_js(array( 'multichoice', 'numerical', 'shortanswer' ), 'mod_quiz' );
     $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks', 'tolerance' ), 'qtype_calculated' );
-    $PAGE->requires->strings_for_js(array( 'add', 'answer', 'cancel', 'delete', 'duplicate', 'feedback', 'grade', 'previous' ), 'core' );
+    $PAGE->requires->strings_for_js(array( 'add', 'answer', 'cancel', 'delete',
+            'duplicate', 'feedback', 'grade', 'previous' ), 'core' );
 }
 
 function atto_cloze_params_for_js() {

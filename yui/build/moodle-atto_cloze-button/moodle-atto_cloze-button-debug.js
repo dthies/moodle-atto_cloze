@@ -82,7 +82,7 @@ var TEMPLATE = {
              '</div></div>' +
              '{{/answerdata}}</ol>' +
                  '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></div></p>' +
-                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}" title="{{get_string "common:insert" "editor_tinymce"}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',
@@ -104,7 +104,7 @@ var TEMPLATE = {
                  '</span>' +
                  '</label></div>' +
              '{{/types}}</div>' +
-                 '<p><button type="submit" class="{{CSS.SUBMIT}}">{{get_string "add" "core"}}</button>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}" title="{{get_string "add" "core"}}">{{get_string "add" "core"}}</button>' +
                  '<button type="submit" class="{{CSS.DUPLICATE}}">{{get_string "duplicate" "core"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
           '</form></div>'
@@ -210,6 +210,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
 
         var host = this.get('host');
 
+        host.editor.focus();
+
         // Store the current selection.
         this._currentSelection = host.getSelection();
         if (this._currentSelection === false) {
@@ -252,7 +254,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var template, content;
 
         if (this._form) {
-            this._form.remove(true);
+            this._form.remove()
+                .destroy(true);
         }
 
         if (!qtype) {

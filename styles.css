@@ -24,3 +24,7 @@
 .atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {
     display: inline;
 }
+
+input.atto_cloze_marks {
+    width: 4em;
+}

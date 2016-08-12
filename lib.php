@@ -25,10 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Return the order this plugin should be displayed in the toolbar
- * @return int the absolute position within the toolbar
+ * Get the list of strings for this plugin.
+ * @param string $elementid
  */
-
 function atto_cloze_strings_for_js() {
     global $PAGE;
 
@@ -42,6 +41,11 @@ function atto_cloze_strings_for_js() {
             'duplicate', 'feedback', 'grade', 'previous' ), 'core' );
 }
 
+/**
+ * Set params for this plugin.
+ *
+ * @return array
+ */
 function atto_cloze_params_for_js() {
     global $CFG;
     require($CFG->dirroot . '/version.php');

@@ -105,7 +105,7 @@ var TEMPLATE = {
                  '</label></div>' +
              '{{/types}}</div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" title="{{get_string "add" "core"}}">{{get_string "add" "core"}}</button>' +
-                 '<button type="submit" class="{{CSS.DUPLICATE}}">{{get_string "duplicate" "core"}}</button>' +
+                 '{{#qtype}}<button type="submit" class="{{../CSS.DUPLICATE}}">{{get_string "duplicate" "core"}}</button>{{/qtype}}' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
           '</form></div>'
     },
@@ -267,12 +267,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         if (!qtype) {
             template = Y.Handlebars.compile(TEMPLATE.TYPE);
             content = Y.Node.create(template({CSS: CSS,
+                qtype: this._qtype,
                 types: this.get('questiontypes')
                 }));
             this._form = content;
 
-            content.one('.' + CSS.SUBMIT).on('click', this._choiceHandler, this);
-            content.one('.' + CSS.DUPLICATE).on('click', this._choiceHandler, this);
+            content.delegate('click', this._choiceHandler, '.' + CSS.SUBMIT + ', .' + CSS.DUPLICATE, this);
             content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
             return content;
         }

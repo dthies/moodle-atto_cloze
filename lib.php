@@ -48,7 +48,6 @@ function atto_cloze_strings_for_js() {
  */
 function atto_cloze_params_for_js() {
     global $CFG;
-    require($CFG->dirroot . '/version.php');
 
     $selectinline = array('option' => get_string('layoutselectinline', 'qtype_multianswer'));
     $horizontal = array('option' => get_string('layouthorizontal', 'qtype_multianswer'));
@@ -68,7 +67,7 @@ function atto_cloze_params_for_js() {
         ),
     );
     // Check whether shuffled multichoice is supported yet.
-    if ($version >= 2015111604) {
+    if ($CFG->version >= 2015111604) {
         $shuffle = array('option' => get_string('shufflewithin', 'mod_quiz'));
         $qtypes = array_merge($qtypes, array(
 

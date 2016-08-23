@@ -436,9 +436,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         host.focus();
         host.setSelection(this._currentSelection);
 
-        this.saveSelection();
         host.insertContentAtFocusPoint(question);
-        this.restoreSelection();
     },
 
     /**

@@ -204,6 +204,16 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             callback: this._displayDialogue
         });
         this._marks = 1;
+
+        // We need custom highlight logic for this button.
+        this.get('host').on('atto:selectionchanged', function () {
+            if (this._resolveSubquestion()) {
+                this.highlightButtons();
+            } else {
+                this.unHighlightButtons();
+            }
+        }, this);
+
     },
 
     /**
@@ -428,7 +438,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         host.focus();
         host.setSelection(this._currentSelection);
 
+        this.saveSelection();
         host.insertContentAtFocusPoint(question);
+        this.restoreSelection();
     },
 
     /**
@@ -545,8 +557,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
                 var endRange = this._getAnchor(selectedNode, questionEnd);
                 selection[0].setStart(startRange.anchor, startRange.offset);
                 selection[0].setEnd(endRange.anchor, endRange.offset);
-                this.get('host').setSelection(selection);
-                this._currentSelection = host.getSelection();
+                this._currentSelection = selection;
             }
         }, this);
 

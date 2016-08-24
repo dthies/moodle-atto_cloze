@@ -332,7 +332,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
                 }
             ];
         }
-                this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
+        this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
+        this._form.one('.' + CSS.ANSWER).focus();
     },
 
     /**
@@ -388,6 +389,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         this._getFormData()
             ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
         this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
+        this._form.all('.' + CSS.ANSWER).item(index).focus();
     },
 
     /**
@@ -402,6 +404,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         this._getFormData()
             ._answerdata.splice(index, 1);
         this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
+        var answers = this._form.all('.' + CSS.ANSWER);
+        index = Math.min(index, answers.size() - 1);
+        answers.item(index).focus();
     },
 
     /**

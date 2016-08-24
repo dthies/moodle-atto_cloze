@@ -438,7 +438,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         host.focus();
         host.setSelection(this._currentSelection);
 
+        // Save the selection before inserting the new question.
+        var selection = window.rangy.saveSelection();
         host.insertContentAtFocusPoint(question);
+
+        // Select the inserted text.
+        window.rangy.restoreSelection(selection);
     },
 
     /**

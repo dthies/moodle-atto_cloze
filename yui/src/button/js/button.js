@@ -342,7 +342,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @param {String} The question string
      */
     _parseSubquestion: function(question) {
-        var re = /\{([0-9]*):([_A-Z]+):(\\.|[^]*?)\}/g,
+        var re = /\{([0-9]*):([_A-Z]+):(.*?)\}$/g,
             parts = re.exec(question);
         if (!parts) {
             return;
@@ -355,21 +355,21 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
         answers.forEach(function(answer) {
-            var options = /^(%(-?[\.0-9]+)%|(=?))([^#]*)#?(.*)/.exec(answer);
+            var options = /^(%(-?[\.0-9]+)%|(=?))((\\.|[^#])*)#?(.*)/.exec(answer);
             if (options && options[4]) {
                 if (this._qtype === 'NUMERICAL' || this._qtype === 'NM') {
                     var tolerance = /^([^:]*):?(.*)/.exec(options[4])[2] || 0;
                     this._answerdata.push({
-                        answer: options[4].replace(/:.*/, ''),
+                        answer: this._decode(options[4].replace(/:.*/, '')),
                         id: Y.guid(),
-                        feedback: options[5],
+                        feedback: this._decode(options[6]),
                         tolerance: tolerance,
                         fraction: options[3] ? 100 : options[2] || 0});
                     return;
                 }
-                this._answerdata.push({answer: options[4],
+                this._answerdata.push({answer: this._decode(options[4]),
                     id: Y.guid(),
-                    feedback: options[5],
+                    feedback: this._decode(options[6]),
                     fraction: options[3] ? 100 : options[2] || 0});
             }
         }, this);
@@ -428,6 +428,11 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         e.preventDefault();
         var template = Y.Handlebars.compile(TEMPLATE.OUTPUT);
         this._getFormData();
+
+        this._answerdata.forEach(function(option) {
+            option.answer = this._encode(option.answer);
+            option.feedback = this._encode(option.feedback);
+        }, this);
 
         var question = template(
             {CSS: CSS,
@@ -522,6 +527,30 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     },
 
     /**
+     * Encode answer or feedback text.
+     *
+     * @method _encode
+     * @param {String} Text to encode
+     * @return {String} The encoded text
+     * @private
+     */
+    _encode: function(text) {
+        return text.replace(/(\\|#|}|~)/g, '\\$1');
+    },
+
+    /**
+     * Decode answer or feedback text.
+     *
+     * @method _decode
+     * @param {String} Text to decoded
+     * @return {String} The decoded text
+     * @private
+     */
+    _decode: function(text) {
+        return text.replace(/\\(.)/g, '$1');
+    },
+
+    /**
      * Check whether cursor is in a subquestion and return subquestion text if
      * true.
      *
@@ -532,7 +561,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     _resolveSubquestion: function() {
         var host = this.get('host'),
             selectedNode = host.getSelectionParentNode(),
-            re = /\{[^]*?\}/g;
+            re = /\{[0-9]*:(\\.|[^}])*?\}/g;
 
         if (!selectedNode) {
             return;
@@ -557,7 +586,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         subquestions.forEach(function(subquestion) {
             index = selectedNode.textContent.indexOf(subquestion, questionEnd);
             questionEnd = index + subquestion.length;
-            if (index < startIndex && endIndex < questionEnd) {
+            if (index <= startIndex && endIndex <= questionEnd) {
                 result = subquestion;
                 var startRange = this._getAnchor(selectedNode, index);
                 var endRange = this._getAnchor(selectedNode, questionEnd);

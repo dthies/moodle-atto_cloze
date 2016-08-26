@@ -31,7 +31,6 @@ Feature: Atto cloze editor button
 @javascript @atto_shortanswer
   Scenario: Insert the button into question text of existing question
     When I click on "Edit" "link" in the "shortanswer question" "table_row"
-    And I expand all fieldsets
     And I set the field "Question text" to "Bunny"
     And I select the text in the "Question text" Atto editor
     And I click on "Cloze editor" "button"

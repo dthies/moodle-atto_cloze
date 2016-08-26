@@ -81,8 +81,11 @@ var TEMPLATE = {
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</div></div>' +
              '{{/answerdata}}</ol>' +
-                 '<p><button class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></div></p>' +
-                 '<p><button type="submit" class="{{CSS.SUBMIT}}" title="{{get_string "common:insert" "editor_tinymce"}}">{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                 '<p><button class="{{CSS.ADD}}" ' +
+                     'title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></div></p>' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
+                     'title="{{get_string "common:insert" "editor_tinymce"}}">' +
+                     '{{get_string "common:insert" "editor_tinymce"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',
@@ -104,8 +107,10 @@ var TEMPLATE = {
                  '</span>' +
                  '</label></div>' +
              '{{/types}}</div>' +
-                 '<p><button type="submit" class="{{CSS.SUBMIT}}" title="{{get_string "add" "core"}}">{{get_string "add" "core"}}</button>' +
-                 '{{#qtype}}<button type="submit" class="{{../CSS.DUPLICATE}}">{{get_string "duplicate" "core"}}</button>{{/qtype}}' +
+                 '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
+                     'title="{{get_string "add" "core"}}">{{get_string "add" "core"}}</button>' +
+                 '{{#qtype}}<button type="submit" class="{{../CSS.DUPLICATE}}">' +
+                     '{{get_string "duplicate" "core"}}</button>{{/qtype}}' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
           '</form></div>'
     },
@@ -282,7 +287,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
                 }));
             this._form = content;
 
-            content.delegate('click', this._choiceHandler, '.' + CSS.SUBMIT + ', .' + CSS.DUPLICATE, this);
+            content.delegate('click', this._choiceHandler,
+                '.' + CSS.SUBMIT + ', .' + CSS.CANCEL, this);
             content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
             return content;
         }
@@ -317,9 +323,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _choiceHandler: function(e) {
         e.preventDefault();
-        var qtype = this._form.one('form').getDOMNode().qtype;
-        if (qtype && qtype.value) {
-            this._qtype = qtype.value;
+        var qtype = this._form.one('input[name=qtype]:checked');
+        if (qtype) {
+            this._qtype = qtype.get('value');
         }
         if (e && e.currentTarget && e.currentTarget.hasClass(CSS.SUBMIT)) {
             this._answerdata = [

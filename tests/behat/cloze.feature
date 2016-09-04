@@ -55,7 +55,7 @@ Feature: Atto cloze editor button
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Five"
     And I set the field with xpath "//div[@class='atto_cloze']//li[3]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_feedback ')]" to "Right"
     And I click on "Insert" "button" in the "Cloze editor" "dialogue"
-    Then I should see "{1:MULTICHOICE:~%0%Five~%0%Four~%100%Three#Right}"
+    Then I should see "{1:MULTICHOICE:~Five~Four~%100%Three#Right}"
 
 @javascript @atto_numerical
   Scenario: Create a numerical question

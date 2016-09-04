@@ -65,7 +65,10 @@ var TEMPLATE = {
                  '<button class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">-</button><br />' +
                  '<label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
-                     '<option value="{{fraction}}">{{fraction}}%</option>' +
+                     '{{#if fraction}}' +
+                         '<option value="{{../fraction}}">{{../fraction}}%</option>' +
+                     '{{/if}}' +
+                     '<option value="">{{get_string "incorrect" "core_question"}}</option>' +
                      '{{#../fractions}}' +
                      '<option value="{{fraction}}">{{fraction}}%</option>' +
                      '{{/../fractions}}' +
@@ -89,7 +92,7 @@ var TEMPLATE = {
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',
-    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~%{{fraction}}%{{answer}}' +
+    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~{{#if fraction}}%{{../fraction}}%{{/if}}{{answer}}' +
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
     TYPE: '<div class="atto_cloze">{{get_string "chooseqtypetoadd" "question"}}' +
@@ -209,6 +212,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             callback: this._displayDialogue
         });
         this._marks = 1;
+        this._answerDefault = '';
 
         // We need custom highlight logic for this button.
         this.get('host').on('atto:selectionchanged', function () {
@@ -315,6 +319,26 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     },
 
     /**
+     * Find the correct answer default for the current question type
+     *
+     * @method _getAnswerDefault
+     * @private
+     * @return {String} Default answer
+     */
+    _getAnswerDefault: function() {
+        switch (this._qtype) {
+            case 'SHORTANSWER':
+            case 'SA':
+            case 'NUMERICAL':
+            case 'NM':
+                this._answerDefault = 100;
+                break;
+            default:
+                this._answerDefault = '';
+        }
+    },
+
+    /**
      * Handle question choice
      *
      * @method _choiceHandler
@@ -326,6 +350,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var qtype = this._form.one('input[name=qtype]:checked');
         if (qtype) {
             this._qtype = qtype.get('value');
+            this._getAnswerDefault();
         }
         if (e && e.currentTarget && e.currentTarget.hasClass(CSS.SUBMIT)) {
             this._answerdata = [
@@ -357,6 +382,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }
         this._marks = parts[1];
         this._qtype = parts[2];
+        this._getAnswerDefault();
         this._answerdata = [];
         var answers = parts[3].match(/(\\.|[^~])*/g);
         if (!answers) {
@@ -393,7 +419,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         e.preventDefault();
         var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
         this._getFormData()
-            ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: 0, tolerance: 0});
+            ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: this._answerDefault, tolerance: 0});
         this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
         this._form.all('.' + CSS.ANSWER).item(index).focus();
     },

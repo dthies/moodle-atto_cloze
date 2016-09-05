@@ -574,7 +574,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _encode: function(text) {
-        return text.replace(/(#|\}|~)/g, '\\$1');
+        return String(text).replace(/(#|\}|~)/g, '\\$1');
     },
 
     /**
@@ -586,7 +586,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _decode: function(text) {
-        return text.replace(/\\(#|\}|~)/g, '$1');
+        return String(text).replace(/\\(#|\}|~)/g, '$1');
     },
 
     /**

@@ -495,12 +495,17 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      */
     _getFormData: function() {
         this._answerdata = [];
-        var answers = this._form.all('.' + CSS.ANSWER),
+        var answer,
+            answers = this._form.all('.' + CSS.ANSWER),
             feedbacks = this._form.all('.' + CSS.FEEDBACK),
             fractions = this._form.all('.' + CSS.FRACTION),
             tolerances = this._form.all('.' + CSS.TOLERANCE);
         for(var i = 0; i < answers.size(); i++) {
-            this._answerdata.push({answer: answers.item(i).getDOMNode().value,
+            answer = answers.item(i).getDOMNode().value;
+            if (this._qtype === 'NM' || this._qtype === 'NUMERICAL') {
+                answer = Number(answer);
+            }
+            this._answerdata.push({answer: answer,
                 id: Y.guid(), feedback: feedbacks.item(i).getDOMNode().value,
                 fraction: fractions.item(i).getDOMNode().value,
                 tolerance: tolerances.item(i) ? tolerances.item(i).getDOMNode().value : 0});
@@ -567,7 +572,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _encode: function(text) {
-        return text.replace(/(#|}|~)/g, '\\$1');
+        return text.replace(/(#|\}|~)/g, '\\$1');
     },
 
     /**
@@ -579,7 +584,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _decode: function(text) {
-        return text.replace(/\\(#|}|~)/g, '$1');
+        return text.replace(/\\(#|\}|~)/g, '$1');
     },
 
     /**

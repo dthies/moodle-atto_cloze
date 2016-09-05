@@ -89,7 +89,11 @@ function atto_cloze_params_for_js() {
         array('type' => 'NUMERICAL', 'name' => get_string('numerical', 'mod_quiz'),
         'summary' => get_string('pluginnamesummary', 'qtype_numerical')),
         array('type' => 'SHORTANSWER', 'name' => get_string('shortanswer', 'mod_quiz'),
-        'summary' => get_string('pluginnamesummary', 'qtype_shortanswer')),
+        'summary' => get_string('pluginnamesummary', 'qtype_shortanswer'),
+        'options' => array('option' => get_string('caseno', 'mod_quiz'))),
+        array('type' => 'SHORTANSWER_C', 'name' => get_string('shortanswer', 'mod_quiz'),
+        'summary' => get_string('pluginnamesummary', 'qtype_shortanswer'),
+        'options' => array('option' => get_string('caseyes', 'mod_quiz'))),
     ));
     return array('questiontypes' => $qtypes);
 }

@@ -49,6 +49,8 @@ function atto_cloze_strings_for_js() {
 function atto_cloze_params_for_js() {
     global $CFG;
 
+    $singleno = array('option' => get_string('answersingleno', 'qtype_multichoice'));
+    $singleyes = array('option' => get_string('answersingleyes', 'qtype_multichoice'));
     $selectinline = array('option' => get_string('layoutselectinline', 'qtype_multianswer'));
     $horizontal = array('option' => get_string('layouthorizontal', 'qtype_multianswer'));
     $vertical = array('option' => get_string('layoutvertical', 'qtype_multianswer'));
@@ -59,11 +61,11 @@ function atto_cloze_params_for_js() {
         ),
         array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz'),
             'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-            'options' => array($horizontal)
+            'options' => array($horizontal, $singleyes)
         ),
         array('type' => 'MULTICHOICE_V', 'name' => get_string('multichoice', 'mod_quiz'),
             'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-            'options' => array($vertical)
+            'options' => array($vertical, $singleyes)
         ),
     );
     // Check whether shuffled multichoice is supported yet.
@@ -77,11 +79,35 @@ function atto_cloze_params_for_js() {
             ),
             array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz'),
                 'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-                'options' => array($horizontal, $shuffle)
+                'options' => array($horizontal, $shuffle, $singleyes)
             ),
             array('type' => 'MULTICHOICE_VS', 'name' => get_string('multichoice', 'mod_quiz'),
                 'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-                'options' => array($vertical, $shuffle)
+                'options' => array($vertical, $shuffle, $singleyes)
+            ),
+        ));
+    }
+
+    // Check whether shuffled multichoice is supported yet.
+    if ($CFG->version >= 2016080400) {
+        $multihorizontal = array('option' => get_string('layoutmultiple_horizontal', 'qtype_multianswer'));
+        $multivertical = array('option' => get_string('layoutmultiple_vertical', 'qtype_multianswer'));
+        $qtypes = array_merge($qtypes, array(
+            array('type' => 'MULTIRESPONSE', 'name' => get_string('multichoice', 'mod_quiz'),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($multivertical, $singleno)
+            ),
+            array('type' => 'MULTIRESPONSE_H', 'name' => get_string('multichoice', 'mod_quiz'),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($multihorizontal, $singleno)
+            ),
+            array('type' => 'MULTIRESPONSE_S', 'name' => get_string('multichoice', 'mod_quiz'),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($multivertical, $shuffle, $singleno)
+            ),
+            array('type' => 'MULTIRESPONSE_HS', 'name' => get_string('multichoice', 'mod_quiz'),
+                'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
+                'options' => array($multihorizontal, $shuffle, $singleno)
             ),
         ));
     }

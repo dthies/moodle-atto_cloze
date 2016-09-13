@@ -292,7 +292,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             this._form = content;
 
             content.delegate('click', this._choiceHandler,
-                '.' + CSS.SUBMIT + ', .' + CSS.CANCEL, this);
+                '.' + CSS.SUBMIT + ', .' + CSS.DUPLICATE, this);
             content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
             return content;
         }

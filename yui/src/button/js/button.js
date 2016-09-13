@@ -548,11 +548,11 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * @private
      */
     _getOffset: function(container, node) {
-        if (!container.contains(node)) {
-            return;
-        }
         if (container === node) {
             return 0;
+        }
+        if (!container.contains(node)) {
+            return;
         }
         var offset = 0,
             child = container.firstChild;

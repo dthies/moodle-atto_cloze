@@ -203,8 +203,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         // Check whether we are editing a question.
         var form = this.get('host').editor.ancestor('body#page-question-type-multianswer form');
         if (!form ||
-                !form.test('[action="question.php"]') ||
-                !this.get('host').editor.ancestor('#fitem_id_questiontext')) {
+                !form.test('[action="question.php"]')) {
             return;
         }
 

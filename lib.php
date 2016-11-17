@@ -57,7 +57,7 @@ function atto_cloze_params_for_js() {
     $qtypes = array(
         array('type' => 'MULTICHOICE', 'name' => get_string('multichoice', 'mod_quiz'),
             'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-            'options' => array($selectinline)
+            'options' => array($selectinline, $singleyes)
         ),
         array('type' => 'MULTICHOICE_H', 'name' => get_string('multichoice', 'mod_quiz'),
             'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
@@ -75,7 +75,7 @@ function atto_cloze_params_for_js() {
 
             array('type' => 'MULTICHOICE_S', 'name' => get_string('multichoice', 'mod_quiz'),
                 'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),
-                'options' => array($selectinline, $shuffle)
+                'options' => array($selectinline, $shuffle, $singleyes)
             ),
             array('type' => 'MULTICHOICE_HS', 'name' => get_string('multichoice', 'mod_quiz'),
                 'summary' => get_string('pluginnamesummary', 'qtype_multichoice'),

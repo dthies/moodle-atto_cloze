@@ -28,3 +28,11 @@
 input.atto_cloze_marks {
     width: 4em;
 }
+
+.atto_cloze_answers li:first-child .atto_cloze_up {
+    display: none
+}
+
+.atto_cloze_answers li:last-child .atto_cloze_down {
+    display: none
+}

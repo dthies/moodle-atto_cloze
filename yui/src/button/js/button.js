@@ -42,9 +42,11 @@ var CSS = {
     FEEDBACK: 'atto_cloze_feedback',
     FRACTION: 'atto_cloze_fraction',
     LEFT: 'atto_cloze_col0',
+    LOWER: 'atto_cloze_down',
     RIGHT: 'atto_cloze_col1',
     MARKS: 'atto_cloze_marks',
     DUPLICATE: 'atto_cloze_duplicate',
+    RAISE: 'atto_cloze_up',
     SUBMIT: 'atto_cloze_submit',
     SUMMARY: 'atto_cloze_summary',
     TOLERANCE: 'atto_cloze_tolerance',
@@ -56,12 +58,15 @@ var TEMPLATE = {
              '<p>{{qtype}}' +
                  '<label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>' +
                  '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
+                 '<img class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' + M.util.image_url('t/add', 'core') + '">' +
              '<div class="{{CSS.ANSWERS}}">' +
              '<ol>{{#answerdata}}' +
              '<li><div><div class="{{../CSS.LEFT}}">' +
-                 '<button class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button>' +
-                 '<button class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">-</button><br />' +
-                 '<label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
+                 '<img class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' + M.util.image_url('t/add', 'core') + '">' +
+                 '<img class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}" src="' + M.util.image_url('t/delete', 'core') + '">' +
+                 '<img class="{{../CSS.RAISE}}" title="{{get_string "up" "core"}}" src="' + M.util.image_url('t/up', 'core') + '">' +
+                 '<img class="{{../CSS.LOWER}}" title="{{get_string "down" "core"}}" src="' + M.util.image_url('t/down', 'core') + '">' +
+                 '<br /><label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '{{#if fraction}}' +
                          '<option value="{{../fraction}}">{{../fraction}}%</option>' +
@@ -81,9 +86,7 @@ var TEMPLATE = {
                  '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</div></div>' +
-             '{{/answerdata}}</ol>' +
-                 '<p><button class="{{CSS.ADD}}" ' +
-                     'title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">+</button></div></p>' +
+             '{{/answerdata}}</ol></div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
                      'title="{{get_string "common:insert" "editor_tinymce"}}">' +
                      '{{get_string "common:insert" "editor_tinymce"}}</button>' +
@@ -315,6 +318,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
         content.delegate('click', this._deleteAnswer, '.' + CSS.DELETE, this);
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
+        content.delegate('click', this._lowerAnswer, '.' + CSS.LOWER, this);
+        content.delegate('click', this._raiseAnswer, '.' + CSS.RAISE, this);
 
         return content;
     },
@@ -419,8 +424,15 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     _addAnswer: function(e) {
         e.preventDefault();
         var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
+        if (e.target.ancestor('li')) {
+            this._answerDefault = e.target.ancestor('li').one('.' + CSS.FRACTION).getDOMNode().value;
+        }
+        var tolerance = 0;
+        if (e.target.ancestor('li').one('.' + CSS.TOLERANCE)) {
+            tolerance = e.target.ancestor('li').one('.' + CSS.TOLERANCE).getDOMNode().value;
+        }
         this._getFormData()
-            ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: this._answerDefault, tolerance: 0});
+            ._answerdata.splice(index, 0, {answer: '', id: Y.guid(), feedback: '', fraction: this._answerDefault, tolerance: tolerance});
         this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));
         this._form.all('.' + CSS.ANSWER).item(index).focus();
     },
@@ -440,6 +452,32 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         var answers = this._form.all('.' + CSS.ANSWER);
         index = Math.min(index, answers.size() - 1);
         answers.item(index).focus();
+    },
+
+    /**
+     * Lower answer option
+     *
+     * @method _lowerAnswer
+     * @private
+     */
+    _lowerAnswer: function(e) {
+        e.preventDefault();
+        var li = e.target.ancestor('li');
+        li.insertBefore(li.next(), li);
+        li.one('.' + CSS.ANSWER).focus();
+    },
+
+    /**
+     * Raise answer option
+     *
+     * @method _raiseAnswer
+     * @private
+     */
+    _raiseAnswer: function(e) {
+        e.preventDefault();
+        var li = e.target.ancestor('li');
+        li.insertBefore(li, li.previous());
+        li.one('.' + CSS.ANSWER).focus();
     },
 
     /**

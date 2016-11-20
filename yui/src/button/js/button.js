@@ -318,6 +318,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         content.one('.' + CSS.CANCEL).on('click', this._cancel, this);
         content.delegate('click', this._deleteAnswer, '.' + CSS.DELETE, this);
         content.delegate('click', this._addAnswer, '.' + CSS.ADD, this);
+        content.delegate('key', this._addAnswer, 'enter', '.' + CSS.ANSWER + ', .' + CSS.FEEDBACK, this);
         content.delegate('click', this._lowerAnswer, '.' + CSS.LOWER, this);
         content.delegate('click', this._raiseAnswer, '.' + CSS.RAISE, this);
 
@@ -424,6 +425,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     _addAnswer: function(e) {
         e.preventDefault();
         var index = this._form.all('.' + CSS.ADD).indexOf(e.target);
+        if (index === -1) {
+            index = this._form.all('.' + CSS.ANSWER + ', .' + CSS.FEEDBACK).indexOf(e.target);
+            if (index !== -1) {
+	        index = Math.floor(index / 2) + 1;
+            }
+        }
         if (e.target.ancestor('li')) {
             this._answerDefault = e.target.ancestor('li').one('.' + CSS.FRACTION).getDOMNode().value;
         }

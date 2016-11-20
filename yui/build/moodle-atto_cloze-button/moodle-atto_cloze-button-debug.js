@@ -437,7 +437,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             this._answerDefault = e.target.ancestor('li').one('.' + CSS.FRACTION).getDOMNode().value;
         }
         var tolerance = 0;
-        if (e.target.ancestor('li').one('.' + CSS.TOLERANCE)) {
+        if (e.target.ancestor('li') && e.target.ancestor('li').one('.' + CSS.TOLERANCE)) {
             tolerance = e.target.ancestor('li').one('.' + CSS.TOLERANCE).getDOMNode().value;
         }
         this._getFormData()

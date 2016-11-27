@@ -63,14 +63,18 @@ var TEMPLATE = {
              '<div class="{{CSS.ANSWERS}}">' +
              '<ol>{{#answerdata}}' +
              '<li><div><div class="{{../CSS.LEFT}}">' +
-                 '<img class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' +
-                     M.util.image_url('t/add', 'core') + '">' +
-                 '<img class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}" src="' +
-                     M.util.image_url('t/delete', 'core') + '">' +
-                 '<img class="{{../CSS.RAISE}}" title="{{get_string "up" "core"}}" src="' +
-                     M.util.image_url('t/up', 'core') + '">' +
-                 '<img class="{{../CSS.LOWER}}" title="{{get_string "down" "core"}}" src="' +
-                     M.util.image_url('t/down', 'core') + '">' +
+                 '<a class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">' +
+                 '<img class="icon_smallicon" src="' +
+                     M.util.image_url('t/add', 'core') + '"></a>' +
+                 '<a class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">' +
+                 '<img class="icon_smallicon" src="' +
+                     M.util.image_url('t/delete', 'core') + '"></a>' +
+                 '<a class="{{../CSS.RAISE}}" title="{{get_string "up" "core"}}">' +
+                 '<img class="icon_smallicon" src="' +
+                     M.util.image_url('t/up', 'core') + '"></a>' +
+                 '<a class="{{../CSS.LOWER}}" title="{{get_string "down" "core"}}">' +
+                 '<img class="icon_smallicon" src="' +
+                     M.util.image_url('t/down', 'core') + '"></a>' +
                  '<br /><label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '{{#if fraction}}' +

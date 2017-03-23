@@ -618,7 +618,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             offset += child.textContent.length;
             child = child.nextSibling;
         }
-        return offset + this._getOffset(node, child);
+        return offset + this._getOffset(child, node);
     },
 
     /**
@@ -676,7 +676,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }
 
         var startIndex = this._getOffset(selectedNode, selection[0].startContainer) + selection[0].startOffset,
+            endIndex;
+        if (selection[0].endContainer.firstChild) {
+            endIndex = this._getOffset(selectedNode, selection[0].endContainer.childNodes[selection[0].endOffset]);
+        } else {
             endIndex = this._getOffset(selectedNode, selection[0].endContainer) + selection[0].endOffset;
+        }
 
         subquestions.forEach(function(subquestion) {
             index = selectedNode.textContent.indexOf(subquestion, questionEnd);

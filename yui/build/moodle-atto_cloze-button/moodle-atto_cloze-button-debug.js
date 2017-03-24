@@ -624,10 +624,12 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
 
         var startIndex = this._getOffset(selectedNode, selection[0].startContainer) + selection[0].startOffset,
             endIndex;
-        if (selection[0].endContainer.firstChild) {
+        if (!selection[0].endContainer.firstChild) {
+            endIndex = this._getOffset(selectedNode, selection[0].endContainer) + selection[0].endOffset;
+        } else if (selection[0].endContainer.childNodes[selection[0].endOffset]) {
             endIndex = this._getOffset(selectedNode, selection[0].endContainer.childNodes[selection[0].endOffset]);
         } else {
-            endIndex = this._getOffset(selectedNode, selection[0].endContainer) + selection[0].endOffset;
+            endIndex = this._getOffset(selectedNode, selection[0].endContainer.lastChild);
         }
 
         subquestions.forEach(function(subquestion) {

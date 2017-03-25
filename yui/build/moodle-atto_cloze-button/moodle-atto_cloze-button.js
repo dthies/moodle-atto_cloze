@@ -677,15 +677,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return false;
         }
 
-        var startIndex = this._getOffset(selectedNode, selection[0].startContainer) + selection[0].startOffset,
-            endIndex;
-        if (!selection[0].endContainer.firstChild) {
-            endIndex = this._getOffset(selectedNode, selection[0].endContainer) + selection[0].endOffset;
-        } else if (selection[0].endContainer.childNodes[selection[0].endOffset]) {
-            endIndex = this._getOffset(selectedNode, selection[0].endContainer.childNodes[selection[0].endOffset]);
-        } else {
-            endIndex = this._getOffset(selectedNode, selection[0].endContainer.lastChild);
-        }
+        var startIndex = this._getIndex(selectedNode, selection[0].startContainer, selection[0].startOffset),
+            endIndex = this._getIndex(selectedNode, selection[0].endContainer, selection[0].endOffset);
 
         subquestions.forEach(function(subquestion) {
             index = selectedNode.textContent.indexOf(subquestion, questionEnd);
@@ -701,6 +694,28 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }, this);
 
         return result;
+    },
+
+    /**
+     * Calculate the postition in text of parent node an selection end point
+     *
+     * @method _getIndex
+     * @param {Node} parent node
+     * @param {Node} selction end point container node
+     * @param {Integer} selction end point offset
+     * @return {String} The substring describing subquestion
+     * @private
+     */
+    _getIndex: function(selectedNode, container, offset) {
+        var index;
+        if (!container.firstChild) {
+            index = this._getOffset(selectedNode, container) + offset;
+        } else if (container.childNodes[offset]) {
+            index = this._getOffset(selectedNode, container.childNodes[offset]);
+        } else {
+            index = this._getOffset(selectedNode, container.lastChild) + container.lastChild.textContent.length;
+        }
+        return index;
     }
 }, {
     ATTRS: {

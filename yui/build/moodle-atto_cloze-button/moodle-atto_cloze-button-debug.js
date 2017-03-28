@@ -444,6 +444,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }
         if (e.target.ancestor('li')) {
             this._answerDefault = e.target.ancestor('li').one('.' + CSS.FRACTION).getDOMNode().value;
+            index = this._form.all('li').indexOf(e.target.ancestor('li')) + 1;
         }
         var tolerance = 0;
         if (e.target.ancestor('li') && e.target.ancestor('li').one('.' + CSS.TOLERANCE)) {
@@ -465,6 +466,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     _deleteAnswer: function(e) {
         e.preventDefault();
         var index = this._form.all('.' + CSS.DELETE).indexOf(e.target);
+        if (index === -1) {
+            index = this._form.all('li').indexOf(e.target.ancestor('li'));
+        }
         this._getFormData()
             ._answerdata.splice(index, 1);
         this._dialogue.set('bodyContent', this._getDialogueContent(e, this._qtype));

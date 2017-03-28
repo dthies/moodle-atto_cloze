@@ -1,7 +1,6 @@
 .atto_cloze_col0 {
-    float: left;
-    padding-right: 2em;
-    width: 25%;
+    padding-right: 1em;
+    float: right;
 }
 
 .atto_cloze_answers {

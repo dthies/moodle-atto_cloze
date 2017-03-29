@@ -94,7 +94,7 @@ var TEMPLATE = {
                  '{{/if}}' +
                  '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
-             '</div></div>' +
+             '</div></div></li>' +
              '{{/answerdata}}</ol></div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
                      'title="{{get_string "common:insert" "editor_tinymce"}}">' +

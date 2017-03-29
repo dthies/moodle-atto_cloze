@@ -52,7 +52,6 @@ Feature: Atto cloze editor button
     And I press key "13" in "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" "xpath_element"
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//select[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_fraction ')]" to "Incorrect"
     And I press key "13" in "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" "xpath_element"
-    And I set the field with xpath "//div[@class='atto_cloze']//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Three"
     And I set the field with xpath "//div[@class='atto_cloze']//li[3]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Five"
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Four"
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_feedback ')]" to "Right"

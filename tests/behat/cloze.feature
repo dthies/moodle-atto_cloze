@@ -46,7 +46,7 @@ Feature: Atto cloze editor button
   Scenario: Create a multiple choice question
     When I set the field "Question text" to "<p> blind mice.</p>"
     And I click on "Cloze editor" "button"
-    And I click on "MULTICHOICE" "radio" in the "Cloze editor" "dialogue"
+    And I click on "MULTICHOICE_S" "radio" in the "Cloze editor" "dialogue"
     And I click on "Add" "button" in the "Cloze editor" "dialogue"
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Three"
     And I press key "13" in "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" "xpath_element"
@@ -57,7 +57,7 @@ Feature: Atto cloze editor button
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Four"
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_feedback ')]" to "Right"
     And I click on "Insert" "button" in the "Cloze editor" "dialogue"
-    Then I should see "{1:MULTICHOICE:~%100%Three#Right~Four~Five}"
+    Then I should see "{1:MULTICHOICE_S:~%100%Three#Right~Four~Five}"
 
 @javascript @atto_numerical
   Scenario: Create a numerical question

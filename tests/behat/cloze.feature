@@ -52,9 +52,9 @@ Feature: Atto cloze editor button
     And I press key "13" in "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" "xpath_element"
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//select[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_fraction ')]" to "Incorrect"
     And I press key "13" in "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" "xpath_element"
-    And I set the field with xpath "//div[@class='atto_cloze']//li[3]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Five"
-    And I set the field with xpath "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Four"
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_feedback ')]" to "Right"
+    And I set the field with xpath "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Four"
+    And I set the field with xpath "//div[@class='atto_cloze']//li[3]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Five"
     And I click on "Insert" "button" in the "Cloze editor" "dialogue"
     Then I should see "{1:MULTICHOICE_S:~%100%Three#Right~Four~Five}"
 

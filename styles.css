@@ -20,7 +20,7 @@
     top: 0;
 }
 
-.atto_cloze_qtype input[type="radio"]:checked+label .atto_cloze_summary {
+.atto_cloze_qtype input[type="radio"]:checked + label .atto_cloze_summary {
     display: inline;
 }
 

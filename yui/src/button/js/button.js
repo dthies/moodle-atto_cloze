@@ -56,56 +56,56 @@ var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<form class="atto_form">' +
              '<p>{{qtype}}' +
-                 '<label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>' +
+                 '<label for="{{elementid}}_mark">{{get_string "defaultmark" "atto_cloze"}}</label>' +
                  '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
-                 '<img class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' +
+                 '<img class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "atto_cloze"}}" src="' +
                      M.util.image_url('t/add', 'core') + '">' +
              '<div class="{{CSS.ANSWERS}}">' +
              '<ol>{{#answerdata}}' +
              '<li><div><div class="{{../CSS.LEFT}}">' +
-                 '<a class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">' +
+                 '<a class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "atto_cloze"}}">' +
                  '<img class="icon_smallicon" src="' +
                      M.util.image_url('t/add', 'core') + '"></a>' +
-                 '<a class="{{../CSS.DELETE}}" title="{{get_string "delete" "core"}}">' +
+                 '<a class="{{../CSS.DELETE}}" title="{{get_string "delete" "atto_cloze"}}">' +
                  '<img class="icon_smallicon" src="' +
                      M.util.image_url('t/delete', 'core') + '"></a>' +
-                 '<a class="{{../CSS.RAISE}}" title="{{get_string "up" "core"}}">' +
+                 '<a class="{{../CSS.RAISE}}" title="{{get_string "up" "atto_cloze"}}">' +
                  '<img class="icon_smallicon" src="' +
                      M.util.image_url('t/up', 'core') + '"></a>' +
-                 '<a class="{{../CSS.LOWER}}" title="{{get_string "down" "core"}}">' +
+                 '<a class="{{../CSS.LOWER}}" title="{{get_string "down" "atto_cloze"}}">' +
                  '<img class="icon_smallicon" src="' +
                      M.util.image_url('t/down', 'core') + '"></a>' +
-                 '<br /><label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
+                 '<br /><label id="{{id}}_grade">{{get_string "grade" "atto_cloze"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '{{#if fraction}}' +
                          '<option value="{{../fraction}}">{{../fraction}}%</option>' +
                      '{{/if}}' +
-                     '<option value="">{{get_string "none" "core"}}</option>' +
+                     '<option value="">{{get_string "none" "atto_cloze"}}</option>' +
                      '{{#../fractions}}' +
                      '<option value="{{fraction}}">{{fraction}}%</option>' +
                      '{{/../fractions}}' +
                  '</select></div>' +
                  '<div class="{{../CSS.RIGHT}}">' +
-                 '<label for="{{id}}_answer">{{get_string "answer" "core"}}</label>' +
+                 '<label for="{{id}}_answer">{{get_string "answer" "atto_cloze"}}</label>' +
                  '<input id="{{id}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
                  '{{#if ../numerical}}' +
-                 '<label for="{{id}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
+                 '<label for="{{id}}_tolerance">{{{get_string "tolerance" "atto_cloze"}}}</label>' +
                  '<input id="{{id}}_tolerance" type="text" class="{{../../CSS.TOLERANCE}}" value="{{tolerance}}" />' +
                  '{{/if}}' +
-                 '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
+                 '<label for="{{id}}_feedback">{{get_string "feedback" "atto_cloze"}}</label>' +
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</div></div></li>' +
              '{{/answerdata}}</ol></div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
-                     'title="{{get_string "common:insert" "editor_tinymce"}}">' +
-                     '{{get_string "common:insert" "editor_tinymce"}}</button>' +
-                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
+                     'title="{{get_string "insert" "atto_cloze"}}">' +
+                     '{{get_string "insert" "atto_cloze"}}</button>' +
+                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "atto_cloze"}}</button></p>' +
              '</form>' +
           '</div>',
     OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~{{#if fraction}}%{{../fraction}}%{{/if}}{{answer}}' +
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
-    TYPE: '<div class="atto_cloze">{{get_string "chooseqtypetoadd" "question"}}' +
+    TYPE: '<div class="atto_cloze">{{get_string "chooseqtypetoadd" "atto_cloze"}}' +
              '<form ="atto_form">' +
              '<div class="{{CSS.TYPE}}">' +
              '{{#types}}' +
@@ -121,10 +121,10 @@ var TEMPLATE = {
                  '</label></div>' +
              '{{/types}}</div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
-                     'title="{{get_string "add" "core"}}">{{get_string "add" "core"}}</button>' +
+                     'title="{{get_string "add" "atto_cloze"}}">{{get_string "add" "atto_cloze"}}</button>' +
                  '{{#qtype}}<button type="submit" class="{{../CSS.DUPLICATE}}">' +
-                     '{{get_string "duplicate" "core"}}</button>{{/qtype}}' +
-                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
+                     '{{get_string "duplicate" "atto_cloze"}}</button>{{/qtype}}' +
+                 '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "atto_cloze"}}</button></p>' +
           '</form></div>'
     },
     FRACTIONS = [{fraction: 100},

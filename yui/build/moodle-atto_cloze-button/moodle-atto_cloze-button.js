@@ -82,7 +82,7 @@ var TEMPLATE = {
                      '{{#if fraction}}' +
                          '<option value="{{../fraction}}">{{../fraction}}%</option>' +
                      '{{/if}}' +
-                     '<option value="">{{get_string "incorrect" "core_question"}}</option>' +
+                     '<option value="">{{get_string "none" "core"}}</option>' +
                      '{{#../fractions}}' +
                      '<option value="{{fraction}}">{{fraction}}%</option>' +
                      '{{/../fractions}}' +

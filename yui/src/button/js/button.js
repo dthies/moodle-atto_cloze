@@ -56,7 +56,7 @@ var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<form class="atto_form">' +
              '<p>{{qtype}}' +
-                 '<label for="{{elementid}}_mark">{{get_string "defaultmark" "core_question"}}</label>' +
+                 '<label for="{{elementid}}_mark">{{get_string "defaultmark" "question"}}</label>' +
                  '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}}" value="{{marks}}" />' +
                  '<img class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' +
                      M.util.image_url('t/add', 'core') + '">' +
@@ -86,7 +86,7 @@ var TEMPLATE = {
                      '{{/../fractions}}' +
                  '</select></div>' +
                  '<div class="{{../CSS.RIGHT}}">' +
-                 '<label for="{{id}}_answer">{{get_string "answer" "core"}}</label>' +
+                 '<label for="{{id}}_answer">{{get_string "answer" "question"}}</label>' +
                  '<input id="{{id}}_answer" type="text" class="{{../CSS.ANSWER}}" value="{{answer}}" />' +
                  '{{#if ../numerical}}' +
                  '<label for="{{id}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +

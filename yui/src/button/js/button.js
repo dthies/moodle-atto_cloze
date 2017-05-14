@@ -92,7 +92,7 @@ var TEMPLATE = {
                  '<label for="{{id}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
                  '<input id="{{id}}_tolerance" type="text" class="{{../../CSS.TOLERANCE}}" value="{{tolerance}}" />' +
                  '{{/if}}' +
-                 '<label for="{{id}}_feedback">{{get_string "feedback" "core"}}</label>' +
+                 '<label for="{{id}}_feedback">{{get_string "feedback" "question"}}</label>' +
                  '<input id="{{id}}_feedback" type="text" class="{{../CSS.FEEDBACK}}" value="{{feedback}}" />' +
              '</div></div></li>' +
              '{{/answerdata}}</ol></div>' +

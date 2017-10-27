@@ -14,6 +14,8 @@ php:
 addons:
   postgresql: "9.3"
 
+dist: precise
+
 env:
  matrix:
   - DB=pgsql MOODLE_BRANCH=MOODLE_30_STABLE

@@ -18,19 +18,21 @@ dist: precise
 
 env:
  matrix:
-  - DB=pgsql MOODLE_BRANCH=MOODLE_30_STABLE
   - DB=pgsql MOODLE_BRANCH=MOODLE_31_STABLE
   - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
-  - DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
+  - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
+  - DB=mysqli MOODLE_BRANCH=MOODLE_33_STABLE
   - DB=mysqli MOODLE_BRANCH=master
   - DB=pgsql MOODLE_BRANCH=master
  
 matrix:
  exclude:
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_30_STABLE
-    php: 7.1
   - env: DB=pgsql MOODLE_BRANCH=MOODLE_31_STABLE
     php: 7.1
+  - env: DB=pgsql MOODLE_BRANCH=master
+    php: 5.6
+  - env: DB=mysqli MOODLE_BRANCH=master
+    php: 5.6
 
 before_install:
   - phpenv config-rm xdebug.ini

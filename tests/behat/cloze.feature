@@ -1,7 +1,7 @@
 @editor @editor_atto @atto @atto_cloze @_bug_phantomjs
 Feature: Atto cloze editor button
   As a teacher
-  In order to create cloze questions 
+  In order to create cloze questions
   I need to use an editing tool.
 
   Background:

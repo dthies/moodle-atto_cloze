@@ -562,7 +562,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      *
      * @method _setSubquestion
      * @chainable
-     * @return [Object] self
+     * @return {Object} self
      * @private
      */
     _getFormData: function() {

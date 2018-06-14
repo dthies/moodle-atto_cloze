@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Get the list of strings for this plugin.
- * @param string $elementid
  */
 function atto_cloze_strings_for_js() {
     global $PAGE;

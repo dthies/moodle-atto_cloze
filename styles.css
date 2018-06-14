@@ -29,9 +29,9 @@ input.atto_cloze_marks {
 }
 
 .atto_cloze_answers li:first-child .atto_cloze_up {
-    display: none
+    display: none;
 }
 
 .atto_cloze_answers li:last-child .atto_cloze_down {
-    display: none
+    display: none;
 }

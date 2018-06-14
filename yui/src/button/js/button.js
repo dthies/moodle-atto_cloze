@@ -228,7 +228,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         this._answerDefault = '';
 
         // We need custom highlight logic for this button.
-        this.get('host').on('atto:selectionchanged', function () {
+        this.get('host').on('atto:selectionchanged', function() {
             if (this._resolveSubquestion()) {
                 this.highlightButtons();
             } else {
@@ -283,8 +283,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * events.
      *
      * @method _getDialogueContent
-     * @param {Event} The event causing content to change
-     * @param {String} The question type to be used
+     * @param {Event} e The event causing content to change
+     * @param {String} qtype The question type to be used
      * @return {Node} The content to place in the dialogue.
      * @private
      */
@@ -352,6 +352,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             default:
                 this._answerDefault = '';
         }
+        return this._answerDefault;
     },
 
     /**
@@ -359,7 +360,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      *
      * @method _choiceHandler
      * @private
-     * @param {Event} Event from button click in chooser
+     * @param {Event} e Event from button click in chooser
      */
     _choiceHandler: function(e) {
         e.preventDefault();
@@ -388,7 +389,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      *
      * @method _parseSubquestion
      * @private
-     * @param {String} The question string
+     * @param {String} question The question string
      */
     _parseSubquestion: function(question) {
         var re = /\{([0-9]*):([_A-Z]+):(.*?)\}$/g,
@@ -429,6 +430,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Insert a new set of answer blanks before the button.
      *
      * @method _addAnswer
+     * @param {Event} e Event from button click or return
      * @private
      */
     _addAnswer: function(e) {
@@ -459,6 +461,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Delete set of answer blanks before the button.
      *
      * @method _deleteAnswer
+     * @param {Event} e Event from button click
      * @private
      */
     _deleteAnswer: function(e) {
@@ -479,6 +482,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Lower answer option
      *
      * @method _lowerAnswer
+     * @param {Event} e Event from button click
      * @private
      */
     _lowerAnswer: function(e) {
@@ -492,6 +496,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Raise answer option
      *
      * @method _raiseAnswer
+     * @param {Event} e Event from button click
      * @private
      */
     _raiseAnswer: function(e) {
@@ -505,6 +510,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Reset and hide form.
      *
      * @method _cancel
+     * @param {Event} e Event from button click
      * @private
      */
     _cancel: function(e) {
@@ -516,6 +522,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Insert content into editor and reset and hide form.
      *
      * @method _setSubquestion
+     * @param {Event} e Event from button click
      * @private
      */
     _setSubquestion: function(e) {
@@ -582,8 +589,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * true.
      *
      * @method _getAnchor
-     * @param {DOMNode} Parent node with text value
-     * @param {Integer} Position of character with in text of parent node
+     * @param {DOMNode} node Parent node with text value
+     * @param {Integer} offset Position of character with in text of parent node
      * @return {Object} An object with anchor and offset for the character
      * with offset in string.
      * @private
@@ -604,8 +611,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Find the offset for the text of a child with within the text of parent
      *
      * @method _getOffset
-     * @param {DOMNode} Parent node with text value
-     * @param {DOMNode} Parent node with text value
+     * @param {DOMNode} container Parent node with text value
+     * @param {DOMNode} node The node at returned offset
      * @return {Integer} The offset of the child's text
      * @private
      */
@@ -629,7 +636,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Encode answer or feedback text.
      *
      * @method _encode
-     * @param {String} Text to encode
+     * @param {String} test Text to encode
      * @return {String} The encoded text
      * @private
      */
@@ -641,7 +648,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Decode answer or feedback text.
      *
      * @method _decode
-     * @param {String} Text to decoded
+     * @param {String} text Text to decoded
      * @return {String} The decoded text
      * @private
      */
@@ -654,7 +661,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * true.
      *
      * @method _resolveSubquestion
-     * @return {String} The substring describing subquestion
+     * @return {Mixed} The substring describing subquestion if found
      * @private
      */
     _resolveSubquestion: function() {
@@ -702,9 +709,9 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Calculate the postition in text of parent node an selection end point
      *
      * @method _getIndex
-     * @param {Node} parent node
-     * @param {Node} selction end point container node
-     * @param {Integer} selction end point offset
+     * @param {Node} selectedNode parent node
+     * @param {Node} container selection end point container node
+     * @param {Integer} offset selection end point offset
      * @return {String} The substring describing subquestion
      * @private
      */

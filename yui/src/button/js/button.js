@@ -569,7 +569,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             feedbacks = this._form.all('.' + CSS.FEEDBACK),
             fractions = this._form.all('.' + CSS.FRACTION),
             tolerances = this._form.all('.' + CSS.TOLERANCE);
-        for(var i = 0; i < answers.size(); i++) {
+        for (var i = 0; i < answers.size(); i++) {
             answer = answers.item(i).getDOMNode().value;
             if (this._qtype === 'NM' || this._qtype === 'NUMERICAL') {
                 answer = Number(answer);
@@ -621,7 +621,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return 0;
         }
         if (!container.contains(node)) {
-            return;
+            return 0;
         }
         var offset = 0,
             child = container.firstChild;
@@ -636,7 +636,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      * Encode answer or feedback text.
      *
      * @method _encode
-     * @param {String} test Text to encode
+     * @param {String} text Text to encode
      * @return {String} The encoded text
      * @private
      */
@@ -670,7 +670,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             re = /\{[0-9]*:(\\.|[^}])*?\}/g;
 
         if (!selectedNode) {
-            return;
+            return false;
         }
         var subquestions = selectedNode.textContent.match(re);
         if (!subquestions) {

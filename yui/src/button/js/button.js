@@ -406,7 +406,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
             return;
         }
         answers.forEach(function(answer) {
-            var options = /^(%(-?[\.0-9]+)%|(=?))((\\.|[^#])*)#?(.*)/.exec(answer);
+            var options = /^(%(-?[.0-9]+)%|(=?))((\\.|[^#])*)#?(.*)/.exec(answer);
             if (options && options[4]) {
                 if (this._qtype === 'NUMERICAL' || this._qtype === 'NM') {
                     var tolerance = /^([^:]*):?(.*)/.exec(options[4])[2] || 0;
@@ -560,6 +560,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
      *
      * @method _setSubquestion
      * @chainable
+     * @return [Object] self
      * @private
      */
     _getFormData: function() {
@@ -674,7 +675,7 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
         }
         var subquestions = selectedNode.textContent.match(re);
         if (!subquestions) {
-            return;
+            return false;
         }
 
         var index,

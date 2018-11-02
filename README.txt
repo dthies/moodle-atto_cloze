@@ -13,5 +13,5 @@ The button should appear in the editor only while editing questions. Click
 the button while editing a question, select the question type and a form
 will appear form entering answers. Finally insert into the question text.
 
-All original files are copyright Daniel Thies 2016 dthies@ccal.edu and
+All original files are copyright Daniel Thies 2016 dethies@gmail.com and
 are licensed under the included GPL 3

@@ -1,7 +1,7 @@
 @editor @editor_atto @atto @atto_cloze @_bug_phantomjs
 Feature: Atto cloze editor button
   As a teacher
-  In order to create cloze questions
+  In order to create cloze questions 
   I need to use an editing tool.
 
   Background:
@@ -21,12 +21,12 @@ Feature: Atto cloze editor button
       | questioncategory | qtype       | name                 | questiontext |
       | Test questions   | shortanswer | shortanswer question | Rabbit       |
     And I log in as "admin"
-    And I navigate to "Atto toolbar settings" node in "Site administration > Plugins > Text editors > Atto HTML editor"
+    And I navigate to "Plugins > Text editors > Atto HTML edito > Atto toolbar settings" in site administration
     And I set the field "Toolbar config" to "other = html, cloze"
     And I press "Save changes"
     And I follow "Site home"
     And I follow "Course 1"
-    And I navigate to "Question bank" node in "Course administration"
+    And I navigate to "Question bank" in current page administration
     And I click on "Create a new question ..." "button"
     And I click on "Embedded answers" "radio" in the "Choose a question type to add" "dialogue"
     And I click on "Add" "button" in the "Choose a question type to add" "dialogue"

@@ -1,58 +1,58 @@
 language: php
 
-sudo: false
+dist: bionic
+
+sudo: required
+
+services:
+  mysql
+
+addons:
+  firefox: "47.0.1"
+  postgresql: "9.6"
+  apt:
+    packages:
+    - openjdk-8-jre-headless
+    - chromium-chromedriver
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/.npm
 
-php:
- - 5.6
- - 7.0
- - 7.1
- - 7.2
-
-addons:
-  postgresql: "9.5"
-
-dist: precise
-
-env:
- matrix:
-  - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
-  - DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
-  - DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
-  - DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
-  - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
-  - DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
-  - DB=pgsql MOODLE_BRANCH=master
- 
 matrix:
- exclude:
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
-    php: 7.2
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_33_STABLE
-    php: 7.2
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_34_STABLE
-    php: 5.6
-  - env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
-    php: 5.6
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
-    php: 5.6
-  - env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
-    php: 5.6
-  - env: DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
-    php: 5.6
-  - env: DB=pgsql MOODLE_BRANCH=master
-    php: 5.6
-  - env: DB=pgsql MOODLE_BRANCH=master
-    php: 7.0
+  include:
+    - php: 7.4
+      env:
+      - MOODLE_BRANCH=master
+      - DB=mysqli
+
+    - php: 7.3
+      env:
+      - MOODLE_BRANCH=MOODLE_38_STABLE
+      - DB=pgsql
+
+    - php: 7.2
+      env:
+      - MOODLE_BRANCH=MOODLE_37_STABLE
+      - DB=mysqli
+
+    - php: 7.1
+      env:
+      - MOODLE_BRANCH=MOODLE_36_STABLE
+      - DB=pgsql
+
+    - php: 7.1
+      env:
+      - MOODLE_BRANCH=MOODLE_35_STABLE
+      - DB=pgsql
 
 before_install:
   - phpenv config-rm xdebug.ini
+  - nvm install 8.9
+  - nvm use 8.9
   - cd ../..
-  - composer selfupdate
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -62,7 +62,10 @@ script:
   - moodle-plugin-ci phplint
   - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
-  - moodle-plugin-ci csslint
-  - moodle-plugin-ci shifter
+  - moodle-plugin-ci codechecker
+  - moodle-plugin-ci validate
+  - moodle-plugin-ci savepoints
+  - moodle-plugin-ci mustache
+  - moodle-plugin-ci grunt || [ "$MOODLE_BRANCH" != 'master' ]
   - moodle-plugin-ci phpunit
-  - moodle-plugin-ci behat
+  - moodle-plugin-ci behat --profile chrome

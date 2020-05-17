@@ -211,7 +211,8 @@ Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.Edi
     initializer: function() {
         this._groupFocus = {};
         // Check whether we are editing a question.
-        var form = this.get('host').editor.ancestor('body#page-question-type-multianswer form');
+        var form = this.get('host').editor.ancestor('body#page-question-type-multianswer form, ' +
+           'body#page-question-type-multianswerwiris form');
         // Only add plugin if this is the first editor on a multianswer question form.
         if (!form ||
                 !this.get('host').editor.compareTo(form.one('.editor_atto_content')) ||

@@ -97,8 +97,8 @@ var TEMPLATE = {
              '</div></div></li>' +
              '{{/answerdata}}</ol></div>' +
                  '<p><button type="submit" class="{{CSS.SUBMIT}}" ' +
-                     'title="{{get_string "common:insert" "editor_tinymce"}}">' +
-                     '{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                     'title="{{get_string "common:insert" "atto_cloze"}}">' +
+                     '{{get_string "common:insert" "atto_cloze"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',

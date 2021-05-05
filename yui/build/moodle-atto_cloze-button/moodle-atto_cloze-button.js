@@ -80,11 +80,11 @@ var TEMPLATE = {
                  '<br /><label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '{{#if fraction}}' +
-                         '<option value="{{../fraction}}">{{../fraction}}%</option>' +
+                         '<option value="{{../fraction}}">{{../fraction}}</option>' +
                      '{{/if}}' +
                      '<option value="">{{get_string "incorrect" "question"}}</option>' +
                      '{{#../fractions}}' +
-                     '<option value="{{fraction}}">{{fraction}}%</option>' +
+                     '<option value="{{fraction}}">{{fraction}}</option>' +
                      '{{/../fractions}}' +
                  '</select></div>' +
                  '<div class="{{../CSS.RIGHT}}">' +
@@ -135,8 +135,7 @@ var TEMPLATE = {
         {fraction: 80}, // 100-complementary to 20
         {fraction: 75}, // 100-complementary to 25
         {fraction: 50}, 
-        {fraction: 34}, // To be combined with 33+33+34 and give 100 in some scenarios.
-        {fraction: 33},
+        {fraction: 30},
         {fraction: 25},
         {fraction: 20},
         {fraction: 10},
@@ -146,8 +145,7 @@ var TEMPLATE = {
         {fraction: -10},
         {fraction: -20},
         {fraction: -25},
-        {fraction: -33},
-        {fraction: -34},
+        {fraction: -30},
         {fraction: -50},
         {fraction: -75},
         {fraction: -80},

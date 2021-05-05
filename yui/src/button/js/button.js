@@ -78,7 +78,7 @@ var TEMPLATE = {
                  '<br /><label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
                  '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}}" selected>' +
                      '{{#if fraction}}' +
-                         '<option value="{{../fraction}}">{{../fraction}}%</option>' +
+                         '<option value="{{../fraction}}">{{../fraction}}</option>' +
                      '{{/if}}' +
                      '<option value="">{{get_string "incorrect" "question"}}</option>' +
                      '{{#../fractions}}' +
@@ -102,7 +102,7 @@ var TEMPLATE = {
                  '<button type="submit" class="{{CSS.CANCEL}}">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',
-    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~{{#if fraction}}%{{../fraction}}%{{/if}}{{answer}}' +
+    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~{{#if fraction}}%{{../fraction}}{{/if}}{{answer}}' +
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
     TYPE: '<div class="atto_cloze">{{get_string "chooseqtypetoadd" "question"}}' +
@@ -128,27 +128,27 @@ var TEMPLATE = {
           '</form></div>'
     },
     FRACTIONS = [{fraction: 100},
-        {fraction: 50},
-        {fraction: 33.33333},
+        {fraction: 95}, // 100-complementary to 5
+        {fraction: 90}, // 100-complementary to 10
+        {fraction: 80}, // 100-complementary to 20
+        {fraction: 75}, // 100-complementary to 25
+        {fraction: 50}, 
+        {fraction: 30},
         {fraction: 25},
         {fraction: 20},
-        {fraction: 16.66667},
-        {fraction: 14.28571},
-        {fraction: 12.5},
-        {fraction: 11.11111},
         {fraction: 10},
         {fraction: 5},
         {fraction: 0},
         {fraction: -5},
         {fraction: -10},
-        {fraction: -11.11111},
-        {fraction: -12.5},
-        {fraction: -14.28571},
-        {fraction: -16.66667},
         {fraction: -20},
         {fraction: -25},
-        {fraction: -33.333},
+        {fraction: -30},
         {fraction: -50},
+        {fraction: -75},
+        {fraction: -80},
+        {fraction: -90},
+        {fraction: -95},
         {fraction: -100}];
 
 Y.namespace('M.atto_cloze').Button = Y.Base.create('button', Y.M.editor_atto.EditorPlugin, [], {

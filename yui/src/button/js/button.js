@@ -55,22 +55,24 @@ var CSS = {
 var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<p class="ml-2">{{qtype}}</p>' +
-             '<form class="atto_form form-inline">' +
-             '<div class="row ml-0 flex-fill">' +
+             '<form class="atto_form">' +
+             '<div class="row ml-0">' +
                 '<div class="form-group">' +
                      '<label for="{{elementid}}_mark">{{get_string "defaultmark" "question"}}</label>' +
-                     '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}} form-control mx-1" value="{{marks}}" />' +
+                     '<input id="{{elementid}}_mark" type="text" value="{{marks}}" ' +
+                     'class="{{CSS.MARKS}} form-control d-inline mx-1" />' +
                      '<a class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">' +
                      '<img class="icon_smallicon" src="' +
                      M.util.image_url('t/add', 'core') + '"></a>' +
                 '</div>' +
              '</div>' +
-             '<div class="{{CSS.ANSWERS}} flex-fill my-3">' +
+             '<div class="{{CSS.ANSWERS}} mb-3">' +
              '<ol class="pl-3">{{#answerdata}}' +
              '<li class="mt-3"><div class="row ml-0">' +
                 '<div class="{{../CSS.LEFT}} form-group">' +
                     '<label for="{{id}}_answer">{{get_string "answer" "question"}}</label>' +
-                    '<input id="{{id}}_answer" type="text" class="{{../CSS.ANSWER}} form-control mx-2" value="{{answer}}" />' +
+                    '<input id="{{id}}_answer" type="text" value="{{answer}}" ' +
+                    'class="{{../CSS.ANSWER}} form-control d-inline mx-2" />' +
                 '</div>' +
                 '<div class="{{../CSS.LEFT}} form-group">' +
                      '<a class="{{../CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">' +
@@ -88,23 +90,23 @@ var TEMPLATE = {
                 '</div>' +
              '</div>' +
              '{{#if ../numerical}}' +
-             '<div class="row mt-2">' +
+             '<div class="row">' +
                  '<div class="{{../CSS.RIGHT}} form-group">' +
                      '<label for="{{id}}_tolerance">{{{get_string "tolerance" "qtype_calculated"}}}</label>' +
                      '<input id="{{id}}_tolerance" type="text" value="{{tolerance}}" ' +
-                             'class="{{../../CSS.TOLERANCE}} form-control mx-2" />' +
+                             'class="{{../../CSS.TOLERANCE}} form-control d-inline mx-2" />' +
                 '</div>' +
              '</div>' +
              '{{/if}}' +
-             '<div class="row mt-2">' +
+             '<div class="row">' +
                 '<div class="{{../CSS.RIGHT}} form-group">' +
                     '<label for="{{id}}_feedback">{{get_string "feedback" "question"}}</label>' +
                     '<input id="{{id}}_feedback" type="text" value="{{feedback}}" ' +
-                            'class="{{../CSS.FEEDBACK}} form-control mx-2" />' +
+                            'class="{{../CSS.FEEDBACK}} form-control d-inline mx-2" />' +
                 '</div>' +
                 '<div class="{{../CSS.RIGHT}} form-group">' +
                     '<label id="{{id}}_grade">{{get_string "grade" "core"}}</label>' +
-                    '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}} custom-select" selected>' +
+                    '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}} custom-select mx-2" selected>' +
                     '{{#if fraction}}' +
                     '<option value="{{../fraction}}">{{../fraction}}%</option>' +
                     '{{/if}}' +

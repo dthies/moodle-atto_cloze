@@ -39,6 +39,10 @@ input.atto_cloze_marks {
     width: 4em !important;
 }
 
+.atto_cloze_answers .form-group img {
+    margin-top: .5rem;
+}
+
 .atto_cloze_answers li:first-child .atto_cloze_up {
     display: none;
 }

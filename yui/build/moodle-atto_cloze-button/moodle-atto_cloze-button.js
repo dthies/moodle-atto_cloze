@@ -58,12 +58,13 @@ var TEMPLATE = {
     FORM: '<div class="atto_cloze">' +
              '<p class="ml-2">{{qtype}}</p>' +
              '<form class="atto_form form-inline">' +
-             '<div class="row ml-0">' +
+             '<div class="row ml-0 flex-fill">' +
                 '<div class="form-group">' +
                      '<label for="{{elementid}}_mark">{{get_string "defaultmark" "question"}}</label>' +
                      '<input id="{{elementid}}_mark" type="text" class="{{CSS.MARKS}} form-control mx-1" value="{{marks}}" />' +
-                     '<img class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}" src="' +
-                         M.util.image_url('t/add', 'core') + '">' +
+                     '<a class="{{CSS.ADD}}" title="{{get_string "addmoreanswerblanks" "qtype_calculated"}}">' +
+                     '<img class="icon_smallicon" src="' +
+                     M.util.image_url('t/add', 'core') + '"></a>' +
                 '</div>' +
              '</div>' +
              '<div class="{{CSS.ANSWERS}} flex-fill my-3">' +

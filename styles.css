@@ -9,6 +9,7 @@
 }
 
 .atto_cloze_qtype {
+    min-height: 300px;
     overflow: auto;
     position: relative;
 }

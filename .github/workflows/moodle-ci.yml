@@ -115,7 +115,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch != 'master' }}
+        if: ${{ always() }}
         run: moodle-plugin-ci grunt --max-lint-warnings 0
 
       - name: PHPUnit tests
@@ -125,9 +125,3 @@ jobs:
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
-
-      - name: Coveralls upload
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        if: ${{ matrix.php == '7.2' && matrix.moodle-branch == 'MOODLE_310_STABLE' && matrix.database == 'mariadb'}}
-        run: moodle-plugin-ci coveralls-upload

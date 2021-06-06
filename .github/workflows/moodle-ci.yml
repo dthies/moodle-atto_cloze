@@ -29,6 +29,7 @@ jobs:
       matrix:
         include:
           - php: '8.0'
+            ini-values: max_input_vars=6000
             moodle-branch: 'master'
             database: 'pgsql'
           - php: '7.4'

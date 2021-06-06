@@ -1,8 +1,9 @@
 .atto_cloze img {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .atto_cloze_button img {
+    /* stylelint-disable-next-line declaration-no-important */
     margin-top: -.125rem !important;
 }
 
@@ -36,6 +37,7 @@
 }
 
 input.atto_cloze_marks {
+    /* stylelint-disable-next-line declaration-no-important */
     width: 4em !important;
 }
 

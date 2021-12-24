@@ -1,3 +1,4 @@
+
 @editor @editor_atto @atto @atto_cloze @_bug_phantomjs
 Feature: Atto cloze editor button
   As a teacher
@@ -24,7 +25,7 @@ Feature: Atto cloze editor button
     And I navigate to "Plugins > Text editors > Atto HTML edito > Atto toolbar settings" in site administration
     And I set the field "Toolbar config" to "other = html, cloze"
     And I press "Save changes"
-    And I follow "Site home"
+    And I follow "home"
     And I follow "Course 1"
     And I navigate to "Question bank" in current page administration
     And I click on "Create a new question ..." "button"

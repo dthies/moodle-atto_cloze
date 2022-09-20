@@ -24,7 +24,7 @@ Feature: Atto cloze editor button
     And I navigate to "Plugins > Text editors > Atto HTML edito > Atto toolbar settings" in site administration
     And I set the field "Toolbar config" to "other = html, cloze"
     And I press "Save changes"
-    And I follow "Site home"
+    And I am on site homepage
     And I follow "Course 1"
     And I navigate to "Question bank" in current page administration
     And I click on "Create a new question ..." "button"
@@ -49,7 +49,7 @@ Feature: Atto cloze editor button
     And I click on "MULTICHOICE_S" "radio" in the "Cloze editor" "dialogue"
     And I click on "Add" "button" in the "Cloze editor" "dialogue"
     And I set the field with xpath "//div[@class='atto_cloze']//li[1]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Three"
-    And I click on "//div[@class='atto_cloze']//a[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_add ')]" "xpath_element"
+    And I click on "//div[@class='atto_cloze']//li[1]//a[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_add ')]" "xpath_element"
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//select[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_fraction ')]" to "Incorrect"
     And I click on "//div[@class='atto_cloze']//li[2]//a[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_add ')]" "xpath_element"
     And I set the field with xpath "//div[@class='atto_cloze']//li[2]//input[contains(concat(' ', normalize-space(@class), ' '), ' atto_cloze_answer ')]" to "Four"

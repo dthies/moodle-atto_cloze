@@ -119,8 +119,8 @@ var TEMPLATE = {
              '</div></li>' +
              '{{/answerdata}}</ol></div>' +
                  '<p class="mb-0"><button type="submit" class="{{CSS.SUBMIT}} btn btn-primary mr-1" ' +
-                     'title="{{get_string "common:insert" "editor_tinymce"}}">' +
-                     '{{get_string "common:insert" "editor_tinymce"}}</button>' +
+                     'title="{{get_string "privacy:request:historyactioninsert" "core_grades"}}">' +
+                     '{{get_string "privacy:request:historyactioninsert" "core_grades"}}</button>' +
                  '<button type="submit" class="{{CSS.CANCEL}} btn btn-secondary">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',

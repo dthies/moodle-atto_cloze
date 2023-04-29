@@ -29,7 +29,7 @@ function atto_cloze_strings_for_js() {
     global $PAGE;
 
     $PAGE->requires->strings_for_js(array( 'pluginname' ), 'atto_cloze' );
-    $PAGE->requires->strings_for_js(array( 'common:insert' ), 'editor_tinymce' );
+    $PAGE->requires->strings_for_js(array( 'privacy:request:historyactioninsert' ), 'core_grades' );
     $PAGE->requires->strings_for_js(array( 'answer', 'chooseqtypetoadd', 'defaultmark', 'feedback', 'incorrect' ), 'question' );
     $PAGE->requires->strings_for_js(array( 'multichoice', 'numerical', 'shortanswer' ), 'mod_quiz' );
     $PAGE->requires->strings_for_js(array( 'addmoreanswerblanks', 'tolerance' ), 'qtype_calculated' );

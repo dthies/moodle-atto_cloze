@@ -124,7 +124,8 @@ var TEMPLATE = {
                  '<button type="submit" class="{{CSS.CANCEL}} btn btn-secondary">{{get_string "cancel" "core"}}</button></p>' +
              '</form>' +
           '</div>',
-    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}~{{#if fraction}}%{{../fraction}}%{{/if}}{{answer}}' +
+    OUTPUT: '&#123;{{marks}}:{{qtype}}:{{#answerdata}}' +
+          '~{{#if fraction}}{{#if (fraction-100)}}={{else}}%{{../fraction}}%{{/if}}{{/if}}{{answer}}' +
           '{{#if tolerance}}:{{tolerance}}{{/if}}' +
           '{{#if feedback}}#{{feedback}}{{/if}}{{/answerdata}}&#125;',
     TYPE: '<div class="atto_cloze mt-0 mx-2 mb-2">' +

@@ -105,7 +105,7 @@ var TEMPLATE = {
                             'class="{{../CSS.FEEDBACK}} form-control d-inline mx-2" />' +
                 '</div>' +
                 '<div class="{{../CSS.RIGHT}} form-group">' +
-                    '<label id="{{id}}_grade">{{get_string "grade" "grades"}}</label>' +
+                    '<label id="{{id}}_grade">{{get_string "gradenoun" "core"}}</label>' +
                     '<select id="{{id}}_grade" value="{{fraction}}" class="{{../CSS.FRACTION}} custom-select mx-2" selected>' +
                     '{{#if fraction}}' +
                     '<option value="{{../fraction}}">{{../fraction}}%</option>' +

@@ -29,4 +29,4 @@ $plugin->requires  = 2023041800;        // Requires this Moodle version.
 $plugin->component = 'atto_cloze';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.1.2';
-$plugin->supported = [43, 502];
+$plugin->supported = [403, 502];
